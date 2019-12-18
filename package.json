@@ -7,7 +7,8 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "test": "mocha --config .mocharc.unit.yaml"
+    "test": "mocha --config .mocharc.unit.yaml",
+    "test:debug": "mocha --config .mocharc.unit.yaml --inspector-brk"
   },
   "dependencies": {
     "chai": "^4.2.0",
