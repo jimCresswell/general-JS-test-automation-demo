@@ -1,0 +1,27 @@
+allow-uncaught: false
+async-only: false
+bail: false
+check-leaks: false
+color: true
+delay: false
+diff: true
+extension:
+  - js
+forbid-only: false
+forbid-pending: false
+full-trace: true
+growl: false
+recursive: false
+reporter:
+  - spec
+# require: '@babel/register'
+retries: 1
+slow: 75
+sort: false
+spec: '**/*.test.js' # the positional arguments!
+timeout: false # same as "no-timeout: true" or "timeout: 0"
+trace-warnings: true # node flags ok
+ui: bdd
+watch: false
+watch-files:
+  - '**/*.js'

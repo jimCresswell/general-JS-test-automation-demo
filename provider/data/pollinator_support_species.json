@@ -1,0 +1,62 @@
+{
+  "name": "pollinator support species",
+  "description": "A list of plant species useful for supporting northern European pollinators.",
+  "plants": [
+    {
+      "common_name": "Purging Buckthorn",
+      "species": "Rhamnus cathartica",
+      "perennial": true,
+      "link": "https://en.wikipedia.org/wiki/Rhamnus_cathartica",
+      "notes": "One of only two support species for the Brimstone butterfly.",
+      "supports": [
+        {
+          "common_name": "Brimstone Butterfly",
+          "species": "Gonepteryx rhamni",
+          "link": "https://en.wikipedia.org/wiki/Gonepteryx_rhamni"
+        }
+      ]
+    },
+    {
+      "common_name": "Marsh Marigold",
+      "species": "Caltha palustris",
+      "perennial": true,
+      "link": "https://en.wikipedia.org/wiki/Caltha_palustris",
+      "notes": "Flowers for most of the year, does well in very wet or flooded sites.",
+      "supports": [
+        {
+          "common_name": "Marsh-Marigold Moth",
+          "species": "Micropterix calthella",
+          "link": "https://en.wikipedia.org/wiki/Micropterix_calthella"
+        }
+      ]
+    },
+    {
+      "common_name": "Goat Willow",
+      "species": "Salix caprea",
+      "perennial": true,
+      "link": "https://en.wikipedia.org/wiki/Salix_caprea",
+      "notes": "One of the earliest food sources for pollinators in the UK.",
+      "supports": [
+        {
+          "common_name": "Mottled Beauty",
+          "species": "Alcis repandata",
+          "link": "https://en.wikipedia.org/wiki/Mottled_beauty"
+        }
+      ]
+    },
+    {
+      "common_name": "Marsh Thistle",
+      "species": "Cirsium palustre",
+      "perennial": false,
+      "link": "https://en.wikipedia.org/wiki/Cirsium_palustre",
+      "notes": "Very high nectar production.",
+      "supports": [
+        {
+          "common_name": "Painted Lady Butterfly",
+          "species": "Vanessa cardui",
+          "link": "https://en.wikipedia.org/wiki/Vanessa_cardui"
+        }
+      ]
+    }
+  ]
+}
