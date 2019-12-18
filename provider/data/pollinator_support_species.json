@@ -3,6 +3,7 @@
   "description": "A list of plant species useful for supporting northern European pollinators.",
   "plants": [
     {
+      "id": 1,
       "common_name": "Purging Buckthorn",
       "species": "Rhamnus cathartica",
       "perennial": true,
@@ -17,6 +18,7 @@
       ]
     },
     {
+      "id": 2,
       "common_name": "Marsh Marigold",
       "species": "Caltha palustris",
       "perennial": true,
@@ -31,6 +33,7 @@
       ]
     },
     {
+      "id": 3,
       "common_name": "Goat Willow",
       "species": "Salix caprea",
       "perennial": true,
@@ -45,6 +48,7 @@
       ]
     },
     {
+      "id": 4,
       "common_name": "Marsh Thistle",
       "species": "Cirsium palustre",
       "perennial": false,
