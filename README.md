@@ -1,2 +1,2 @@
-# pactjs_test_demo
+# PactJS Demo
 Consumer driven contract testing demo using PactJS
