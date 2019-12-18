@@ -7,10 +7,12 @@
 
 const { expect } = require('chai');
 
+const initialData = require('./pollinator_support_species.json');
+const PollinatorSupportList = require('./pollinator_support_list.js');
+
 describe('The pollinator support list', function () {
   beforeEach(function () {
-    const PollinatorSupportList = require('./pollinator_support_list.js');
-    this.list = new PollinatorSupportList();
+    this.list = new PollinatorSupportList(initialData);
   });
 
   it('can be loaded with initial data.', function () {

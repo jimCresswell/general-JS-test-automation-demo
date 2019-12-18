@@ -6,9 +6,10 @@ const cloneDeep = require('lodash.clonedeep');
 class PollinatorSupportList {
   /**
    * Get the initial data and set it to be the current data.
+   * @param {Object} initialData The initial data.
    */
-  constructor() {
-    this.initialData = require('./pollinator_support_species.json');
+  constructor(initialData) {
+    this.initialData = initialData;
     this.reset();
   }
 
