@@ -6,8 +6,8 @@ The project has a provider service, which manages data about pollinator supporti
 ## Usage
 For script execution `yarn` can be replaced with `npm run`.
 
- * `yarn test:unit` Provider and Consumer unit tests with [Mocha](https://mochajs.org) and [Chai](https://www.chaijs.com).
- * `yarn test:provider:e2e` Provider end-to-end API sanity test with [supertest](https://github.com/visionmedia/supertest). Strictly speaking these are integration tests as they call the app directly rather than operating over HTTP, but the trade-off is much faster test execution versus a slight coverage gap in the provider [service entry point file](provider/support_species_service.js).
+ * `yarn test:unit` Provider and Consumer unit tests with [Mocha](https://mochajs.org) and [Chai](https://www.chaijs.com). The unit tests live with modules they test e.g. `my_module.js` will have a `my_module.test.js` in the same directory.
+ * `yarn test:provider:e2e` Provider end-to-end API sanity test with [supertest](https://github.com/visionmedia/supertest). These tests are in the [provider/e2e_test](provider/e2e_test) directory. Strictly speaking these are integration tests as they call the app directly rather than operating over HTTP, but the trade-off is much faster test execution versus a slight coverage gap in the provider [service entry point file](provider/support_species_service.js).
 
 ## Project structure
  * provider
