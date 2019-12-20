@@ -10,7 +10,8 @@ class PollinatorSupportList {
    * @param {Object} initialData The initial data.
    */
   constructor(initialData) {
-    this.initialData = initialData;
+    this.private = {};
+    this.private.initialData = initialData;
     this.reset();
   }
 
@@ -18,14 +19,22 @@ class PollinatorSupportList {
    * Clear the list of pollinator supporting plants.
    */
   clear() {
-    this.data.plants = [];
+    this.private.data.plants = [];
   }
 
   /**
    * Set the current data to be the inital data.
    */
   reset() {
-    this.data = cloneDeep(this.initialData);
+    this.private.data = cloneDeep(this.private.initialData);
+  }
+
+  /**
+   * Get all the data.
+   * @return {Object} A by-value copy of the full data.
+   */
+  getAll() {
+    return cloneDeep(this.private.data);
   }
 
   /**
@@ -34,11 +43,11 @@ class PollinatorSupportList {
    * @return {int} The new ID of the inserted plant object.
    */
   add(plant) {
-    const newId = this.data.plants.length + 1;
+    const newId = this.private.data.plants.length + 1;
     const plantCopy = cloneDeep(plant);
 
     plantCopy.id = newId;
-    this.data.plants.push(plantCopy);
+    this.private.data.plants.push(plantCopy);
 
     return newId;
   }
@@ -49,7 +58,7 @@ class PollinatorSupportList {
    * @return {Object[]}    The removed plant object(s).
    */
   deleteById(id) {
-    return remove(this.data.plants, (plant) => plant.id === id);
+    return remove(this.private.data.plants, (plant) => plant.id === id);
   }
 
   /**
@@ -59,7 +68,16 @@ class PollinatorSupportList {
    */
   getById(id) {
     /** @todo add type checking on the id */
-    return this.data.plants.find((plant) => plant.id === id);
+    return this.private.data.plants.find((plant) => plant.id === id);
+  }
+
+  /**
+   * Factory method to get a new instance with provided initial data.
+   * @param  {Object} initialData The initial data object.
+   * @return {PollinatorSupportList} The instiated list.
+   */
+  static initialise(initialData) {
+    return new this(initialData);
   }
 }
 
