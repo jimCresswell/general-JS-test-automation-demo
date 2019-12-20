@@ -2,6 +2,30 @@ const cloneDeep = require('lodash.clonedeep');
 const remove = require('lodash.remove');
 
 /**
+ * Make sure IDs are valid integers or throw.
+ * @param  {Object} id The ID to check.
+ * @return {int}    The validated ID.
+ */
+function validateId(id) {
+  const intId = Number.parseInt(id, 10);
+
+  if (Number.isFinite(intId)) {
+    return intId;
+  }
+
+  throw new TypeError(`ID could not be converted to a finite integer. Received: ${id}`);
+}
+
+/**
+ * Generate a function to match a plant based on a supplied ID.
+ * @param  {int} id The ID to match on.
+ * @return {Function}    The predicate function.
+ */
+function getIdPredicate(id) {
+  return (plant) => plant.id === id;
+}
+
+/**
  * A list of pollinator support species and associated methods.
  */
 class PollinatorSupportList {
@@ -54,21 +78,24 @@ class PollinatorSupportList {
 
   /**
    * Delete a plant from the list by ID.
-   * @param  {int} id The ID to remove.
-   * @return {Object[]}    The removed plant object(s).
+   * @param  {Object} id The ID to remove.
+   * @return {Object}    The removed plant object.
    */
   deleteById(id) {
-    return remove(this.private.data.plants, (plant) => plant.id === id);
+    const intId = validateId(id);
+    // Note: the remove function returns an array of removed elements,
+    // we always expect there to be 0 or 1 removed element.
+    return remove(this.private.data.plants, getIdPredicate(intId))[0];
   }
 
   /**
    * Get a plant by it's ID.
-   * @param  {int} id The numeric ID to look for.
+   * @param  {Object} id The numeric ID to look for.
    * @return {Object}    A plant
    */
   getById(id) {
-    /** @todo add type checking on the id */
-    return this.private.data.plants.find((plant) => plant.id === id);
+    const intId = validateId(id);
+    return this.private.data.plants.find(getIdPredicate(intId));
   }
 
   /**

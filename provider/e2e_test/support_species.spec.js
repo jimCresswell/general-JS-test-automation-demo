@@ -32,7 +32,7 @@ describe(
             .expect('Content-Type', /json/)
             .expect(200)
             .expect((res) => {
-              expect(res.body.name).to.equal('pollinator support species');
+              expect(res.body).to.have.property('name', 'pollinator support species');
             })
             .end(done);
         });
@@ -54,9 +54,11 @@ describe(
             .send(newData)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
-            .expect(201, {
-              id: 5,
-            }, done);
+            .expect(201)
+            .expect((res) => {
+              expect(res.body.id).to.equal(5);
+            })
+            .end(done);
         });
       });
     });
@@ -72,24 +74,29 @@ describe(
             .get(`${PLANTS_ENDPOINT}/${id}`)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
-            .expect(200, {
-              common_name: 'Purging Buckthorn',
-            }, done);
+            .expect(200)
+            .expect((res) => {
+              expect(res.body).to.have.property('common_name', 'Purging Buckthorn');
+            })
+            .end(done);
         });
       });
 
       /* The specs for the DELETE verb */
       describe('with DELETE', function () {
         it('responds with json', function (done) {
-          const id = 1;
+          const id = 3;
 
           this.request
             .delete(`${PLANTS_ENDPOINT}/${id}`)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
-            .expect(200, {
-              common_name: 'Purging Buckthorn',
-            }, done);
+            .expect(200)
+            .expect((res) => {
+              expect(res.body).to.have.property('deleted', true);
+              expect(res.body).to.have.property('common_name', 'Goat Willow');
+            })
+            .end(done);
         });
       });
     });

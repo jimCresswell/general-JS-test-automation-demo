@@ -38,17 +38,26 @@ describe('The pollinator support list', function () {
     expect(plants).to.be.an('array').with.lengthOf(4);
   });
 
-  it('can get plants by ID.', function () {
+  it('can get plants by int numeric ID.', function () {
     const plant1 = this.list.getById(1);
     expect(plant1).to.have.property('species', 'Rhamnus cathartica');
   });
 
-  it('cannot get plants by IDs that do not exist.', function () {
+  it('can get plants by string numeric ID.', function () {
+    const plant1 = this.list.getById('1');
+    expect(plant1).to.have.property('species', 'Rhamnus cathartica');
+  });
+
+  it('returns undefined when getting nonexistent plant IDs.', function () {
     const plant1 = this.list.getById(9999);
     expect(plant1).to.be.undefined;
   });
 
-  it('can delete plants by ID.', function () {
+  it('throws trying to get a plant with an invalid ID type.', function () {
+    expect(() => this.list.getById('not an id')).to.throw(TypeError);
+  });
+
+  it('can delete plants by ID (and return the deleted data).', function () {
     let { plants } = this.list.getAll();
     const idToRemove = plants.length; // Set the last plant in the list to be removed.
 
@@ -56,7 +65,7 @@ describe('The pollinator support list', function () {
     const originalNames = plants.map((plant) => plant.common_name);
     const expectedNames = originalNames.slice(0, plants.length - 1); // Remove the last name.
 
-    const removedPlant = this.list.deleteById(idToRemove)[0];
+    const removedPlant = this.list.deleteById(idToRemove);
 
     // The removed element is returned.
     expect(removedPlant).to.have.property('common_name', 'Marsh Thistle');
@@ -68,7 +77,12 @@ describe('The pollinator support list', function () {
     expect(remainingNames).to.have.members(expectedNames);
   });
 
-  it('can have extra plants added.', function () {
+  it('returns undefined when deleting nonexistent plant IDs.', function () {
+    const removedPlant = this.list.deleteById(9999);
+    expect(removedPlant).to.be.undefined;
+  });
+
+  it('can have plants added (with generated IDs).', function () {
     const newPlantData = {
       common_name: 'Snozcumber',
       species: 'Cucumis dahlius',
