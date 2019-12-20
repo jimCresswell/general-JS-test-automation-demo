@@ -27,13 +27,13 @@ For script execution `yarn` can be replaced with `npm run`.
     * E2E test through UI with fake network interactions.
 
 ## To Do
-  * Update readme to become guide to approaches.
-  * Create the most basic implementation of the provider service possible.
+  * Create the most basic implementation of the provider service possible. DONE.
   * Create the skeleton for the consumer service.
-    * Get data
-    * Add data (?)
-    * Display data in webpage
-  * Create consumer driven contract tests on the consumer side with Pact JS.
+    * Server-side data interactions with the provider. <-- Unit test with PACT, generate the pacts.
+    * Server-side rendering of UI. Unit tests. Integration tests as required.
+    * Client-side controls for data operations (?). Client-side unit tests as required.
+    * E2E tests using CucumberJS and a WebDriver wrapper. Can be run against whole system or with fake data (provider) service.
   * Publish the pacts.
   * Run them against the provider.
+  * Note in README that this is a full functional testing demo for a JS app rather than just a CDCT demo.
   * Iterate consumer and provider.
