@@ -6,4 +6,7 @@ const supportSpeciesApp = require('./app/support_species_app');
 
 const port = process.env.PROVIDER_PORT || 3000;
 
-supportSpeciesApp.listen(port, () => console.log(`Example app listening on port ${port}!`));
+supportSpeciesApp.listen(
+  port,
+  () => process.stdout.write(`Support species service listening on port ${port}!`)
+);

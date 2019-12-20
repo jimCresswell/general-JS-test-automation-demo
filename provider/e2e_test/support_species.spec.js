@@ -5,6 +5,9 @@
 
 const request = require('supertest');
 
+// Chai expect for use in custom assertion functions.
+const { expect } = require('chai');
+
 const supportSpeciesApp = require('../app/support_species_app');
 
 const PLANTS_ENDPOINT = '/plants';
@@ -24,28 +27,69 @@ describe(
       describe('with GET', function () {
         it('responds with json', function (done) {
           this.request
-            .get('/posts')
+            .get(PLANTS_ENDPOINT)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
-            .expect(200, done);
+            .expect(200)
+            .expect((res) => {
+              expect(res.body.name).to.equal('pollinator support species');
+            })
+            .end(done);
         });
       });
 
       /* The specs for the POST verb */
+      /** @todo consider posting multiple plant entries */
       describe('with POST', function () {
-        this.data = {
-          title: 'My Post',
-          body: 'I love JSON.',
-          userId: 10,
-        };
         it('responds with json', function (done) {
+          const newData = {
+            common_name: 'Snozcumber',
+            species: 'Cucumis dahlius',
+            link: 'https://en.wikipedia.org/wiki/The_BFG',
+          };
+
           this.request
-            .post('/posts')
+            .post(PLANTS_ENDPOINT)
             .type('application/json')
-            .send(this.data)
+            .send(newData)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
-            .expect(201, done);
+            .expect(201, {
+              id: 5,
+            }, done);
+        });
+      });
+    });
+
+    /* The specs for the /plants/:id endpoint */
+    describe(`${PLANTS_ENDPOINT}/:id`, function () {
+      /* The specs for the GET verb */
+      describe('with GET', function () {
+        it('responds with json', function (done) {
+          const id = 1;
+
+          this.request
+            .get(`${PLANTS_ENDPOINT}/${id}`)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200, {
+              common_name: 'Purging Buckthorn',
+            }, done);
+        });
+      });
+
+      /* The specs for the DELETE verb */
+      describe('with DELETE', function () {
+        it('responds with json', function (done) {
+          const id = 1;
+
+          this.request
+            .delete(`${PLANTS_ENDPOINT}/${id}`)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200, {
+              common_name: 'Purging Buckthorn',
+            }, done);
         });
       });
     });
