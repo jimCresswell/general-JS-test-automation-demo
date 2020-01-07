@@ -6,7 +6,7 @@
 const request = require('supertest');
 
 // Chai expect for use in custom assertion functions.
-const { expect } = require('chai');
+const { cExpect } = require('chai');
 
 const supportSpeciesApp = require('../app/support_species_app');
 
@@ -32,7 +32,7 @@ describe(
             .expect('Content-Type', /json/)
             .expect(200)
             .expect((res) => {
-              expect(res.body).to.have.property('name', 'pollinator support species');
+              cExpect(res.body).to.have.property('name', 'pollinator support species');
             })
             .end(done);
         });
@@ -56,7 +56,7 @@ describe(
             .expect('Content-Type', /json/)
             .expect(201)
             .expect((res) => {
-              expect(res.body.id).to.equal(5);
+              cExpect(res.body.id).to.equal(5);
             })
             .end(done);
         });
@@ -76,7 +76,7 @@ describe(
             .expect('Content-Type', /json/)
             .expect(200)
             .expect((res) => {
-              expect(res.body).to.have.property('common_name', 'Purging Buckthorn');
+              cExpect(res.body).to.have.property('common_name', 'Purging Buckthorn');
             })
             .end(done);
         });
@@ -93,8 +93,8 @@ describe(
             .expect('Content-Type', /json/)
             .expect(200)
             .expect((res) => {
-              expect(res.body).to.have.property('deleted', true);
-              expect(res.body).to.have.property('common_name', 'Goat Willow');
+              cExpect(res.body).to.have.property('deleted', true);
+              cExpect(res.body).to.have.property('common_name', 'Goat Willow');
             })
             .end(done);
         });
