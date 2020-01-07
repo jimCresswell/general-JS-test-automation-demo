@@ -9,7 +9,8 @@
   "scripts": {
     "test:unit": "mocha --config .mocharc.unit.yaml",
     "test:unit:debug": "mocha --config .mocharc.unit.yaml --inspector-brk",
-    "test:provider:e2e": "mocha './provider/e2e_test/**/*.spec.js'"
+    "test:provider:e2e": "mocha './provider/e2e_test/**/*.spec.js'",
+    "start:provider": "node ./provider/start.js"
   },
   "dependencies": {
     "chai": "^4.2.0",
