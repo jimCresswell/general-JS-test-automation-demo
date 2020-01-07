@@ -7,6 +7,6 @@ const description = 'Support species app (provider)';
 
 app.listen(port, () => {
   process.stdout.write(
-    `${description} running on http://localhost:${port}`
+    `${description} running on http://localhost:${port}\n`
   );
 });

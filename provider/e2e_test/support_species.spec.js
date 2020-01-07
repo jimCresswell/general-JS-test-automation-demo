@@ -6,7 +6,7 @@
 const request = require('supertest');
 
 // Chai expect for use in custom assertion functions.
-const { cExpect } = require('chai');
+const cExpect = require('chai').expect;
 
 const supportSpeciesApp = require('../app/support_species_app');
 
@@ -21,8 +21,6 @@ describe(
 
     /* The specs for the /plants endpoint */
     describe(`${PLANTS_ENDPOINT}`, function () {
-      this.endpoint = PLANTS_ENDPOINT;
-
       /* The specs for the GET verb */
       describe('with GET', function () {
         it('responds with json', function (done) {
