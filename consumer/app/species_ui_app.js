@@ -5,7 +5,7 @@ const express = require('express');
 const morgan = require('morgan');
 const hbs = require('hbs');
 
-const uiRoutes = require('./routes/ui');
+const getUiRouter = require('./routes/ui');
 
 const app = express();
 
@@ -26,14 +26,23 @@ partialFileNames.forEach((fileName) => {
   hbs.registerPartial(partialName, partial);
 });
 
-// Logging.
-app.use(morgan('combined'));
+/**
+ * Get the Express app, allows dependency injection.
+ * @param  {Object} axios A network interaction library.
+ * @return {App}       The configured Express app.
+ */
+function getApp(axios) {
+  // Logging.
+  app.use(morgan('dev'));
 
-app.use('/', uiRoutes);
+  app.use('/', getUiRouter(axios));
 
-app.use((req, res) => {
-  res.status(404)
-    .render('four_oh_four');
-});
+  app.use((req, res) => {
+    res.status(404)
+      .render('four_oh_four');
+  });
 
-module.exports = app;
+  return app;
+}
+
+module.exports = getApp;
