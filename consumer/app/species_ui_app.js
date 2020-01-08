@@ -29,13 +29,14 @@ partialFileNames.forEach((fileName) => {
 /**
  * Get the Express app, allows dependency injection.
  * @param  {Object} axios A network interaction library.
+ * @param  {string|int} providerPort The port the provider data API is operating on.
  * @return {App}       The configured Express app.
  */
-function getApp(axios) {
+function getApp(axios, providerPort) {
   // Logging.
   app.use(morgan('dev'));
 
-  app.use('/', getUiRouter(axios));
+  app.use('/', getUiRouter(axios, providerPort));
 
   app.use((req, res) => {
     res.status(404)

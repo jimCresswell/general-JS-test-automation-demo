@@ -20,13 +20,16 @@ const getApp = require('../app/species_ui_app');
 
 describe('The Pollinator Support Species UI', function () {
   before(function () {
+    // The fake port to make the mock data API calls to.
+    this.mockProviderPort = 999;
+
     // Iniate the mocking of the back-end (provider) service calls.
     this.axiosMock = new MockAdapter(axios);
 
     // Configure the web UI service (consumer) to use the Axios instance
     // modified with the mock adapter.
     // Note that the mocked calls and responses are to the back-end API (the provider).
-    const speciesUiApp = getApp(axios);
+    const speciesUiApp = getApp(axios, this.mockProviderPort);
 
     /* Set up the base request to the web API for reuse in tests. */
     this.request = request(speciesUiApp);
@@ -45,7 +48,7 @@ describe('The Pollinator Support Species UI', function () {
 
       // Mock specific paths on the provider data API, pass through the rest.
       this.axiosMock
-        .onGet('http://localhost:3001/plants')
+        .onGet(`http://localhost:${this.mockProviderPort}/plants`)
         .reply(200, {
           plants: [{ common_name: this.commonName }],
         })
