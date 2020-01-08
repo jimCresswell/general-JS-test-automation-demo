@@ -1,4 +1,5 @@
 const express = require('express');
+const morgan = require('morgan');
 
 const app = express();
 
@@ -7,6 +8,9 @@ const PollinatorSupportList = require('../data/pollinator_support_list.js');
 
 // Start the data store.
 const plantList = PollinatorSupportList.initialise(initialData);
+
+// Logging.
+app.use(morgan('dev'));
 
 app.use(express.json());
 

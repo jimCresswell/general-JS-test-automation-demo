@@ -7,24 +7,25 @@ The project has a provider service, which manages data about pollinator supporti
 For script execution `yarn` can be replaced with `npm run`.
 
  * `yarn test:unit` Provider and Consumer unit tests with [Mocha](https://mochajs.org) and [Chai](https://www.chaijs.com). The unit tests live with modules they test e.g. `my_module.js` will have a `my_module.test.js` in the same directory.
- * `yarn test:provider:e2e` Provider end-to-end API sanity test with [supertest](https://github.com/visionmedia/supertest). These tests are in the [provider/e2e_test](provider/e2e_test) directory. Strictly speaking these are integration tests as they call the app directly rather than operating over HTTP, but the trade-off is much faster test execution versus a slight coverage gap in the provider [service entry point file](provider/support_species_service.js).
+ * `yarn test:provider:e2e` Provider end-to-end API sanity test with [supertest](https://github.com/visionmedia/supertest). These tests are in the [provider/e2e_test](provider/e2e_test) directory. These are tests as call the app directly (supertest automatically binds to an ephemeral port), this leaves a slight test coverage gap in the provider service entry point file [/provider/start.js](provider/start.js), but that contains very little application logic and is covered by the whole-of-system end to end tests.
 
 ## Project structure
- * provider
+ * [Provider](provider)
    * Express CRUD app in front of a data model and "database"
- * consumer
+ * [Consumer](consumer)
    * Express web-app with mostly (entirely?) server-side service logic, talking to the provider service to get/store data.
 
 ## Notes on development/test approach
-  * Provider/Consumer.
+  * Provider and Consumer.
     * BDD unit tests that work as living engineering documentation, to complement the JSDocs. (Investigate linking to the two, as well as markdown files).
     * Consumer driven contract testing, with pacts created by unit testing the consumer's network interaction code, then verified by the provider, with that verification status published.
   * Provider
     * API driven development for the network interactions using Supertest. This precedes consumer driven contract testing (CDCT), most APIs undergo some development before they have consumers. This may be entirely replaced by CDCT, or continue to function as an e2e sanity test.
-  * consumer
-    * Integration tests as necessary, not through UI.
+  * Consumer
+    * E2E test through UI with fake network interactions, see [consumer/e2e_test/README.md][consumer/e2e_test/README.md].
     * BDD unit tests of any client-side JavaScript.
-    * E2E test through UI with fake network interactions.
+  * Whole System
+    * Cucumber + WebDriver tests for key user journeys only.
 
 ## To Do
   * Create the most basic implementation of the provider service possible. DONE.

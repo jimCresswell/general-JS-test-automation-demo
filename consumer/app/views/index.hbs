@@ -1,0 +1,25 @@
+{{! Includes Boostrap CSS}}
+{{> start_page}}
+    <title>Pollinator Supporting Plants</title>
+{{> end_head_start_body}}
+    <article class="container pt-5">
+      <header class="row text-center mb-5">
+        <h1 class="col display-4">{{mainTitle}}</h1>
+      </header>
+      <main class="row">
+        <div class="col">
+          <h2 class="mb-4">Plants</h2>
+          <dl>
+            {{#each plants}}
+            <dt>{{common_name}}</dt>
+            <dd class="mb-4">
+              <p class="mb-0"><a href={{link}}>{{species}}</a></p>
+              <p>{{notes}}</p>
+            </dd>
+            {{/each}}
+          </dl>
+        </div>
+      </main>
+    </article>
+{{! Includes Boostrap-JS, -JQUERY and -Popper}}
+{{> end_page}}
