@@ -10,7 +10,7 @@ const PollinatorSupportList = require('../data/pollinator_support_list.js');
 const plantList = PollinatorSupportList.initialise(initialData);
 
 // Logging.
-app.use(morgan('combined'));
+app.use(morgan('dev'));
 
 app.use(express.json());
 

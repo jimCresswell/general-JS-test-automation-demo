@@ -11,7 +11,7 @@
     "test:unit:debug": "mocha --config .mocharc.unit.yaml --inspector-brk",
     "test:provider:e2e": "mocha './provider/e2e_test/**/*.spec.js'",
     "test:consumer:e2e": "mocha './consumer/e2e_test/**/*.spec.js'",
-    "start": "concurrently \"node ./provider/start.js\" \"node ./consumer/start.js\"",
+    "start": "concurrently \"npm run start:provider\" \"npm run start:consumer\"",
     "start:provider": "nodemon --watch ./provider ./provider/start.js",
     "start:consumer": "nodemon --watch ./consumer -e js,json,hbs ./consumer/start.js"
   },
