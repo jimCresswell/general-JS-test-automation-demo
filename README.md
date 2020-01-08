@@ -10,9 +10,9 @@ For script execution `yarn` can be replaced with `npm run`.
  * `yarn test:provider:e2e` Provider end-to-end API sanity test with [supertest](https://github.com/visionmedia/supertest). These tests are in the [provider/e2e_test](provider/e2e_test) directory. These are tests as call the app directly (supertest automatically binds to an ephemeral port), this leaves a slight test coverage gap in the provider service entry point file [/provider/start.js](provider/start.js), but that contains very little application logic and is covered by the whole-of-system end to end tests.
 
 ## Project structure
- * provider
+ * [Provider](provider)
    * Express CRUD app in front of a data model and "database"
- * consumer
+ * [Consumer](consumer)
    * Express web-app with mostly (entirely?) server-side service logic, talking to the provider service to get/store data.
 
 ## Notes on development/test approach
