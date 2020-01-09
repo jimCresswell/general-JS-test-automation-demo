@@ -11,10 +11,23 @@
           <h2 class="mb-4">Plants</h2>
           <dl>
             {{#each plants}}
-            <dt>{{common_name}}</dt>
-            <dd class="mb-4">
-              <p class="mb-0"><a href={{wikilink}}>{{species}}</a></p>
-              <p>{{notes}}</p>
+            <dt class="row"><div class="col">{{common_name}}</div></dt>
+            <dd class="row mb-4">
+              <div class="col ml-2">
+                <p class="mb-0"><a href={{wikilink}}>{{species}}</a></p>
+                <p>{{notes}}</p>
+              </div>
+              <div class="col">
+                {{#if wikiSummary}}
+                <article>
+                  <figure>
+                    <img src="{{wikiSummary.thumbnail.source}}" alt="{{wikiSummary.title}}">
+                    <figcaption>{{wikiSummary.title}}: {{wikiSummary.description}}</figcaption>
+                  </figure>
+                  <blockquote cite="{{wikilink}}">{{{wikiSummary.extract_html}}}</blockquote>
+                </article>
+                {{/if}}
+              </div>
             </dd>
             {{/each}}
           </dl>
