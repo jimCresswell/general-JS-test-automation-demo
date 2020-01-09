@@ -4,14 +4,14 @@
 {{> end_head_start_body}}
     <article class="container pt-5">
       <header class="row text-center mb-5">
-        <h1 class="col-sm display-4">{{mainTitle}}</h1>
+        <h1 class="col-sm display-4">Pollinator Supporting Plants</h1>
       </header>
       <main class="row">
         <div class="col-sm">
           <h2 class="mb-4">Plants</h2>
           <dl>
             {{#each plants}}
-            <dt class="row"><div class="col-sm">{{common_name}}</div></dt>
+            <dt class="row"><h3 class="col-sm">{{common_name}}</h3></dt>
             <dd class="row mb-4">
               <div class="col-sm ml-2">
                 <p class="mb-0"><a href={{wikilink}}>{{species}}</a></p>
@@ -19,13 +19,19 @@
               </div>
               <div class="col-sm">
                 {{#if wikiSummary}}
-                <article>
-                  <figure>
-                    <img src="{{wikiSummary.thumbnail.source}}" alt="{{wikiSummary.title}}">
-                    <figcaption>{{wikiSummary.title}}: {{wikiSummary.description}}</figcaption>
-                  </figure>
-                  <blockquote cite="{{wikilink}}">{{{wikiSummary.extract_html}}}</blockquote>
-                </article>
+                  {{! Conditionally render errors, wouldn't do this in production}}
+                  {{#if wikiSummary.err}}
+                    <h4>wikiSummary.err</h4>
+                  {{else}}
+                  <article>
+                    <h4>{{wikiSummary.title}}<h4>
+                    <figure>
+                      <img src="{{wikiSummary.thumbnail.source}}" alt="{{wikiSummary.title}}">
+                      <figcaption>{{wikiSummary.title}}: {{wikiSummary.description}}</figcaption>
+                    </figure>
+                    <blockquote cite="{{wikilink}}">{{{wikiSummary.extract_html}}}</blockquote>
+                  </article>
+                  {{/if}}
                 {{/if}}
               </div>
             </dd>
