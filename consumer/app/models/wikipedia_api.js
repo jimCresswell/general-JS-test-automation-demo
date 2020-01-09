@@ -25,7 +25,7 @@ function getSummary(axios, title) {
         'User-Agent': 'Contact: https://github.com/jimCresswell/pactjs-test-demo/issues',
       },
     })
-    .catch((err) => ({ err }));
+    .catch((err) => ({ err: err.toString() }));
 }
 
 /**
@@ -37,7 +37,7 @@ function getSummary(axios, title) {
 function attachSummaries(axios, plantData) {
   const summaryPromises = plantData.map((plant, index) => {
     const title = parseTitle(plant.wikilink);
-    return getSummary(title)
+    return getSummary(axios, title)
       .then((summaryData) => {
         // Modify the plant data to include the summary.
         /** @todo If this was a real app modify a copy of the data to avoid side-effects. */
