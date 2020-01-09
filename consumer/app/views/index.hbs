@@ -4,18 +4,36 @@
 {{> end_head_start_body}}
     <article class="container pt-5">
       <header class="row text-center mb-5">
-        <h1 class="col display-4">{{mainTitle}}</h1>
+        <h1 class="col-sm-8 display-4">Pollinator Supporting Plants</h1>
       </header>
       <main class="row">
-        <div class="col">
-          <h2 class="mb-4">Plants</h2>
+        <div class="col-sm-8">
           <dl>
             {{#each plants}}
-            <dt>{{common_name}}</dt>
-            <dd class="mb-4">
-              <p class="mb-0"><a href={{link}}>{{species}}</a></p>
-              <p>{{notes}}</p>
+            <dt class="row">
+              <h2 class="col-sm text-center display-5">
+                {{common_name}} <small><a href={{wikilink}}>{{species}}</a></small>
+              </h2>
+            </dt>
+            <dd class="row mb-3">
+              <div class="col-sm text-center">
+                <p>{{notes}}</p>
+              </div>
             </dd>
+            {{#if wikiSummary}}
+            <dd class="row mb-5">
+              {{! Conditionally render errors, wouldn't do this in production}}
+              {{#if wikiSummary.err}}
+              <p class="col-sm err">wikiSummary.err</p>
+              {{else}}
+              <figure class="col-sm">
+                <img class="img-fluid" src="{{wikiSummary.thumbnail.source}}" alt="{{wikiSummary.title}}">
+                <figcaption><small>{{wikiSummary.title}}: {{wikiSummary.description}}</small></figcaption>
+              </figure>
+              <blockquote class="col-sm" cite="{{wikilink}}">{{{wikiSummary.extract_html}}}</blockquote>
+              {{/if}}
+            </dd>
+            {{/if}}
             {{/each}}
           </dl>
         </div>

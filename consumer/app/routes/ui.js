@@ -4,6 +4,9 @@ const express = require('express');
 const router = express.Router();
 /* eslint-enable new-cap */
 
+const dataApi = require('../models/data_api');
+const wikiApi = require('../models/wikipedia_api');
+
 /**
  * Get the router for these routes, allows dependency injection.
  * @param  {Object} axios A network interaction library.
@@ -16,17 +19,11 @@ function getRouter(axios, providerPort) {
   }
 
   router.get('/', (req, res, next) => {
-    axios.get(`http://localhost:${providerPort}/plants`)
-      .then((response) => {
-        const viewData = {
-          mainTitle: 'Pollinator Supporting Plants',
-          plants: response.data.plants,
-        };
-        res.render('index', viewData);
-      })
-      .catch((err) => {
-        next(err);
-      });
+    dataApi
+      .getPlants(axios, providerPort, next)
+      .then((plantData) => wikiApi.attachSummaries(axios, plantData))
+      .then((plantData) => res.render('index', { plants: plantData }))
+      .catch((err) => next(err));
   });
 
   return router;

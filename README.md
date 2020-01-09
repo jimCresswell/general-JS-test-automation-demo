@@ -7,13 +7,13 @@ The project has a provider service, which manages data about pollinator supporti
 For script execution `yarn` can be replaced with `npm run`.
 
  * `yarn test:unit` Provider and Consumer unit tests with [Mocha](https://mochajs.org) and [Chai](https://www.chaijs.com). The unit tests live with modules they test e.g. `my_module.js` will have a `my_module.test.js` in the same directory.
- * `yarn test:provider:e2e` Provider end-to-end API sanity test with [supertest](https://github.com/visionmedia/supertest). These tests are in the [provider/e2e_test](provider/e2e_test) directory. These are tests as call the app directly (supertest automatically binds to an ephemeral port), this leaves a slight test coverage gap in the provider service entry point file [/provider/start.js](provider/start.js), but that contains very little application logic and is covered by the whole-of-system end to end tests.
+ * `yarn test:provider:e2e` Provider end-to-end API sanity test with [supertest](https://github.com/visionmedia/supertest). These tests are in the [provider/e2e_test](provider/e2e_test) directory. These are tests as call the app directly (Supertest automatically binds to an ephemeral port), this leaves a slight test coverage gap in the provider service entry point file [/provider/start.js](provider/start.js), but that contains very little application logic and is covered by the whole-of-system end to end tests.
 
 ## Project structure
  * [Provider](provider)
    * Express CRUD app in front of a data model and "database"
  * [Consumer](consumer)
-   * Express web-app with mostly (entirely?) server-side service logic, talking to the provider service to get/store data.
+   * Express web-app with mostly (entirely?) server-side service logic, talking to the provider service to get/store data. Also gets data from the Wikipedia REST API (for the extended plant data summaries).
 
 ## Notes on development/test approach
   * Provider and Consumer.
