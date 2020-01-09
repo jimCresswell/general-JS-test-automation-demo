@@ -4,20 +4,20 @@
 {{> end_head_start_body}}
     <article class="container pt-5">
       <header class="row text-center mb-5">
-        <h1 class="col display-4">{{mainTitle}}</h1>
+        <h1 class="col-sm display-4">{{mainTitle}}</h1>
       </header>
       <main class="row">
-        <div class="col">
+        <div class="col-sm">
           <h2 class="mb-4">Plants</h2>
           <dl>
             {{#each plants}}
-            <dt class="row"><div class="col">{{common_name}}</div></dt>
+            <dt class="row"><div class="col-sm">{{common_name}}</div></dt>
             <dd class="row mb-4">
-              <div class="col ml-2">
+              <div class="col-sm ml-2">
                 <p class="mb-0"><a href={{wikilink}}>{{species}}</a></p>
                 <p>{{notes}}</p>
               </div>
-              <div class="col">
+              <div class="col-sm">
                 {{#if wikiSummary}}
                 <article>
                   <figure>
