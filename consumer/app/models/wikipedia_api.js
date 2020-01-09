@@ -38,11 +38,11 @@ function attachSummaries(axios, plantData) {
   const summaryPromises = plantData.map((plant, index) => {
     const title = parseTitle(plant.wikilink);
     return getSummary(axios, title)
-      .then((summaryData) => {
+      .then((reply) => {
         // Modify the plant data to include the summary.
         /** @todo If this was a real app modify a copy of the data to avoid side-effects. */
         /* eslint-disable no-param-reassign */
-        plantData[index].wikiSummary = summaryData;
+        plantData[index].wikiSummary = reply.data;
         /* eslint-enable no-param-reassign */
       });
   });
@@ -54,6 +54,6 @@ function attachSummaries(axios, plantData) {
 }
 
 module.exports = {
-  attachSummaries,
   parseTitle,
+  attachSummaries,
 };

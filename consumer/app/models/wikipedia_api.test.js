@@ -5,7 +5,11 @@
   no-unused-expressions: off
 */
 
-const { expect } = require('chai');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+
+chai.use(chaiAsPromised);
+const { expect } = chai;
 
 const axios = require('axios');
 const MockAdapter = require('axios-mock-adapter');
@@ -37,21 +41,12 @@ describe('The Wikipedia model network functions', function () {
       });
   });
 
-  it('can attach summaries (attachSummaries)', function (done) {
-    const plantData = [{ wikilink: 'http://example.com' }];
-    wikiApi.attachSummaries(this.axios, plantData)
-      .then((data) => {
-
-        /** @todo WHY IS THIS CALLED TWICE? PROMISE CONSTRUCTION ERROR? */
-        console.log('****', data, '&&&&', data[0].wikiSummary);
-
-        expect(data).to.be.an('array');
-        expect(data[0].wikiSummary.data).to.deep.include({ title: this.testTitle });
-        done();
-      })
-      .catch((err) => {
-        done(err);
-      });
+  it('can attach summaries (attachSummaries)', function () {
+    const plantData = [{ name: 'some plant', wikilink: 'http://example.com' }];
+    const data = wikiApi.attachSummaries(this.axios, plantData);
+    return expect(data)
+      .to.eventually.be.an('array')
+      .which.has.nested.property('[0].wikiSummary.title', this.testTitle);
   });
 
   after(function () {
