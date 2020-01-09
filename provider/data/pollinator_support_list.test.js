@@ -86,7 +86,7 @@ describe('The pollinator support list', function () {
     const newPlantData = {
       common_name: 'Snozcumber',
       species: 'Cucumis dahlius',
-      link: 'https://en.wikipedia.org/wiki/The_BFG',
+      wikilink: 'https://en.wikipedia.org/wiki/The_BFG',
     };
 
     // Check the new plant is properly assigned an ID.

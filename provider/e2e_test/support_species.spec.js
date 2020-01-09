@@ -43,7 +43,7 @@ describe(
           const newData = {
             common_name: 'Snozcumber',
             species: 'Cucumis dahlius',
-            link: 'https://en.wikipedia.org/wiki/The_BFG',
+            wikilink: 'https://en.wikipedia.org/wiki/The_BFG',
           };
 
           this.request
