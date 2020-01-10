@@ -11,9 +11,11 @@
     "test:unit:debug": "mocha --config .mocharc.unit.yaml --inspector-brk",
     "test:provider:e2e": "mocha './provider/e2e_test/**/*.spec.js'",
     "test:consumer:e2e": "mocha './consumer/e2e_test/**/*.spec.js'",
+    "test:system": "echo \"Not yet implemented\"",
     "start": "concurrently \"npm run start:provider\" \"npm run start:consumer\"",
     "start:provider": "nodemon --watch ./provider ./provider/start.js",
-    "start:consumer": "nodemon --watch ./consumer -e js,json,hbs ./consumer/start.js"
+    "start:consumer": "nodemon --watch ./consumer -e js,json,hbs ./consumer/start.js",
+    "stop": "echo \"Not yet implemented, see https://stackoverflow.com/a/39128820\"",
   },
   "dependencies": {
     "axios": "^0.19.1",
