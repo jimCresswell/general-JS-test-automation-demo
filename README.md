@@ -13,15 +13,21 @@ For script execution `yarn` can be replaced with `npm run`.
 
 The unit tests live with modules they test e.g. `my_module.js` will have a `my_module.test.js` in the same directory.
 
+#### Consumer Driven Contract Testing (with Pact JS)
+ * `yarn test:contract:consumer` Generate the consumer contracts.
+ * `yarn publish_pacts` Publish the consumer contracts to a remote Pact broker.
+ * `yarn test:contract:provider` Get the remote contracts, verify them against the provider service, and publish the verification results back to the Pact broker. See <https://test.pact.dius.com.au/matrix/provider/Support%20Species%20App%20%28Provider%29/consumer/Species%20UI%20App%20%28Consumer%29>.
+
 #### End to End API Testing of Isolated Services
+These have a different intent from the contract tests. On the consumer side they test the whole consumer service rather than just the module that talks to the provider service. On the provider side they test all provider service end-points whereas the contract tests by design only test the interactions and returned payload data required by the consumer service.
 
 ##### Consumer
-`yarn test:consumer:e2e` Consumer end-to-end API sanity test with [supertest](https://github.com/visionmedia/supertest). Where a network interaction is tested HTTP calls and responses are mocked with [Axios Mock Adapter](https://github.com/ctimmerm/axios-mock-adapter). Returned HTML is parsed with [Cheerio](https://github.com/cheeriojs/cheerio).
+`yarn test:e2e:consumer` Consumer end-to-end API sanity test with [supertest](https://github.com/visionmedia/supertest). Where a network interaction is tested HTTP calls and responses are mocked with [Axios Mock Adapter](https://github.com/ctimmerm/axios-mock-adapter). Returned HTML is parsed with [Cheerio](https://github.com/cheeriojs/cheerio).
 
 ##### Provider
-`yarn test:provider:e2e` Provider end-to-end API sanity test with [supertest](https://github.com/visionmedia/supertest). These tests are in the [provider/e2e_test](provider/e2e_test) directory.
+`yarn test:e2e:provider` Provider end-to-end API sanity test with [supertest](https://github.com/visionmedia/supertest). These tests are in the [provider/e2e_test](provider/e2e_test) directory.
 
-These are tests as call the app directly (Supertest automatically binds to an ephemeral port), this leaves a slight test coverage gap in the provider service entry point file [/provider/start.js](provider/start.js), but that contains very little application logic and is covered by the whole-of-system end to end tests.
+These are tests call the app directly (Supertest automatically binds to an ephemeral port), this leaves a slight test coverage gap in the provider service entry point file [/provider/start.js](provider/start.js), but that contains very little application logic and is covered by the whole-of-system tests.
 
 #### Whole of System Testing
 Not yet implemented. Will use Cucumber and WebDriver to execute human readable specifications against the system.
