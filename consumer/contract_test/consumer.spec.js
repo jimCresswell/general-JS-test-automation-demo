@@ -82,7 +82,7 @@ const plantExpectation = {
   (see provider/data/pollinator_support_species.json) as they are not
   used in the consumer.
 */
-const MIN_NUM_POLLINATORS = 5;
+const MIN_NUM_POLLINATORS = 4;
 const plantListExpectation = {
   plants: eachLike(plantExpectation, { min: MIN_NUM_POLLINATORS }),
 };

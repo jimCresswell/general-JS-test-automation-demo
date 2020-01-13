@@ -79,27 +79,12 @@
                   "wikilink": "https://en.wikipedia.org/wiki/Gonepteryx_rhamni"
                 }
               ]
-            },
-            {
-              "id": 1,
-              "common_name": "Purging Buckthorn",
-              "species": "Rhamnus cathartica",
-              "perennial": true,
-              "wikilink": "https://en.wikipedia.org/wiki/Rhamnus_cathartica",
-              "notes": "One of only two support species for the Brimstone butterfly.",
-              "supports": [
-                {
-                  "common_name": "Brimstone Butterfly",
-                  "species": "Gonepteryx rhamni",
-                  "wikilink": "https://en.wikipedia.org/wiki/Gonepteryx_rhamni"
-                }
-              ]
             }
           ]
         },
         "matchingRules": {
           "$.body.plants": {
-            "min": 5
+            "min": 4
           },
           "$.body.plants[*].*": {
             "match": "type"
