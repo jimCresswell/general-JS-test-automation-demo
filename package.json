@@ -8,12 +8,17 @@
   "private": true,
   "scripts": {
     "test:unit": "mocha --config .mocharc.unit.yaml",
-    "test:unit:debug": "mocha --config .mocharc.unit.yaml --inspector-brk",
-    "test:provider:e2e": "mocha './provider/e2e_test/**/*.spec.js'",
-    "test:consumer:e2e": "mocha './consumer/e2e_test/**/*.spec.js'",
+    "test:unit:debug": "mocha --config .mocharc.unit.yaml --inspect-brk",
+    "test:e2e:consumer": "mocha './consumer/e2e_test/**/*.spec.js'",
+    "test:e2e:provider": "mocha './provider/e2e_test/**/*.spec.js'",
+    "test:pact:consumer": "mocha --timeout 30000 './consumer/contract_test/consumer.spec.js'",
+    "test:pact:provider": "mocha --timeout 30000 './provider/contract_verification/provider.spec.js'",
+    "publish_pacts": "node ./consumer/contract_test/publish.js",
+    "test:system": "echo \"Not yet implemented\"",
     "start": "concurrently \"npm run start:provider\" \"npm run start:consumer\"",
+    "start:consumer": "nodemon --watch ./consumer -e js,json,hbs ./consumer/start.js",
     "start:provider": "nodemon --watch ./provider ./provider/start.js",
-    "start:consumer": "nodemon --watch ./consumer -e js,json,hbs ./consumer/start.js"
+    "stop": "echo \"Not yet implemented, see https://stackoverflow.com/a/39128820\""
   },
   "dependencies": {
     "axios": "^0.19.1",
@@ -25,6 +30,7 @@
     "morgan": "^1.9.1"
   },
   "devDependencies": {
+    "@pact-foundation/pact": "^9.6.0",
     "axios-mock-adapter": "^1.17.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",

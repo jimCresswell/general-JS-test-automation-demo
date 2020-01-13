@@ -1,0 +1,135 @@
+{
+  "consumer": {
+    "name": "Species UI App (Consumer)"
+  },
+  "provider": {
+    "name": "Support Species App (Provider)"
+  },
+  "interactions": [
+    {
+      "description": "a request for the plants list",
+      "providerState": "Returns a list of plants",
+      "request": {
+        "method": "GET",
+        "path": "/plants"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "plants": [
+            {
+              "id": 1,
+              "common_name": "Purging Buckthorn",
+              "species": "Rhamnus cathartica",
+              "perennial": true,
+              "wikilink": "https://en.wikipedia.org/wiki/Rhamnus_cathartica",
+              "notes": "One of only two support species for the Brimstone butterfly.",
+              "supports": [
+                {
+                  "common_name": "Brimstone Butterfly",
+                  "species": "Gonepteryx rhamni",
+                  "wikilink": "https://en.wikipedia.org/wiki/Gonepteryx_rhamni"
+                }
+              ]
+            },
+            {
+              "id": 1,
+              "common_name": "Purging Buckthorn",
+              "species": "Rhamnus cathartica",
+              "perennial": true,
+              "wikilink": "https://en.wikipedia.org/wiki/Rhamnus_cathartica",
+              "notes": "One of only two support species for the Brimstone butterfly.",
+              "supports": [
+                {
+                  "common_name": "Brimstone Butterfly",
+                  "species": "Gonepteryx rhamni",
+                  "wikilink": "https://en.wikipedia.org/wiki/Gonepteryx_rhamni"
+                }
+              ]
+            },
+            {
+              "id": 1,
+              "common_name": "Purging Buckthorn",
+              "species": "Rhamnus cathartica",
+              "perennial": true,
+              "wikilink": "https://en.wikipedia.org/wiki/Rhamnus_cathartica",
+              "notes": "One of only two support species for the Brimstone butterfly.",
+              "supports": [
+                {
+                  "common_name": "Brimstone Butterfly",
+                  "species": "Gonepteryx rhamni",
+                  "wikilink": "https://en.wikipedia.org/wiki/Gonepteryx_rhamni"
+                }
+              ]
+            },
+            {
+              "id": 1,
+              "common_name": "Purging Buckthorn",
+              "species": "Rhamnus cathartica",
+              "perennial": true,
+              "wikilink": "https://en.wikipedia.org/wiki/Rhamnus_cathartica",
+              "notes": "One of only two support species for the Brimstone butterfly.",
+              "supports": [
+                {
+                  "common_name": "Brimstone Butterfly",
+                  "species": "Gonepteryx rhamni",
+                  "wikilink": "https://en.wikipedia.org/wiki/Gonepteryx_rhamni"
+                }
+              ]
+            }
+          ]
+        },
+        "matchingRules": {
+          "$.body.plants": {
+            "min": 4
+          },
+          "$.body.plants[*].*": {
+            "match": "type"
+          },
+          "$.body.plants[*].id": {
+            "match": "type"
+          },
+          "$.body.plants[*].common_name": {
+            "match": "type"
+          },
+          "$.body.plants[*].species": {
+            "match": "type"
+          },
+          "$.body.plants[*].perennial": {
+            "match": "type"
+          },
+          "$.body.plants[*].wikilink": {
+            "match": "type"
+          },
+          "$.body.plants[*].notes": {
+            "match": "type"
+          },
+          "$.body.plants[*].supports": {
+            "min": 1
+          },
+          "$.body.plants[*].supports[*].*": {
+            "match": "type"
+          },
+          "$.body.plants[*].supports[*].common_name": {
+            "match": "type"
+          },
+          "$.body.plants[*].supports[*].species": {
+            "match": "type"
+          },
+          "$.body.plants[*].supports[*].wikilink": {
+            "match": "type"
+          }
+        }
+      },
+      "metadata": null
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}

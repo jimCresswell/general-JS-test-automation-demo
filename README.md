@@ -6,8 +6,25 @@ The project has a provider service, which manages data about pollinator supporti
 ## Usage
 For script execution `yarn` can be replaced with `npm run`.
 
- * `yarn test:unit` Provider and Consumer unit tests with [Mocha](https://mochajs.org) and [Chai](https://www.chaijs.com). The unit tests live with modules they test e.g. `my_module.js` will have a `my_module.test.js` in the same directory.
- * `yarn test:provider:e2e` Provider end-to-end API sanity test with [supertest](https://github.com/visionmedia/supertest). These tests are in the [provider/e2e_test](provider/e2e_test) directory. These are tests as call the app directly (Supertest automatically binds to an ephemeral port), this leaves a slight test coverage gap in the provider service entry point file [/provider/start.js](provider/start.js), but that contains very little application logic and is covered by the whole-of-system end to end tests.
+### Testing
+
+#### Unit Testing
+`yarn test:unit` Provider and Consumer unit tests with [Mocha](https://mochajs.org) and [Chai](https://www.chaijs.com). Where a network interaction is tested HTTP calls and responses are mocked with [Axios Mock Adapter](https://github.com/ctimmerm/axios-mock-adapter).
+
+The unit tests live with modules they test e.g. `my_module.js` will have a `my_module.test.js` in the same directory.
+
+#### End to End API Testing of Isolated Services
+
+##### Consumer
+`yarn test:consumer:e2e` Consumer end-to-end API sanity test with [supertest](https://github.com/visionmedia/supertest). Where a network interaction is tested HTTP calls and responses are mocked with [Axios Mock Adapter](https://github.com/ctimmerm/axios-mock-adapter). Returned HTML is parsed with [Cheerio](https://github.com/cheeriojs/cheerio).
+
+##### Provider
+`yarn test:provider:e2e` Provider end-to-end API sanity test with [supertest](https://github.com/visionmedia/supertest). These tests are in the [provider/e2e_test](provider/e2e_test) directory.
+
+These are tests as call the app directly (Supertest automatically binds to an ephemeral port), this leaves a slight test coverage gap in the provider service entry point file [/provider/start.js](provider/start.js), but that contains very little application logic and is covered by the whole-of-system end to end tests.
+
+#### Whole of System Testing
+Not yet implemented. Will use Cucumber and WebDriver to execute human readable specifications against the system.
 
 ## Project structure
  * [Provider](provider)
@@ -29,12 +46,14 @@ For script execution `yarn` can be replaced with `npm run`.
 
 ## To Do
   * Create the most basic implementation of the provider service possible. DONE.
-  * Create the skeleton for the consumer service.
-    * Server-side data interactions with the provider. <-- Unit test with PACT, generate the pacts.
-    * Server-side rendering of UI. Unit tests. Integration tests as required.
-    * Client-side controls for data operations (?). Client-side unit tests as required.
+  * Create the skeleton for the consumer service. DONE.
+    * Server-side data interactions with the provider. DONE.
+    * Server-side rendering of UI. Unit tests. Integration tests as required. DONE.
+  * Create consumer driven contract tests between consumer and provider.
+    * Consumer tests
+    * Publish the pacts.
+    * Run them against the provider.
+  * Add UI section on which species of pollinator are supported. Two columns, left plant, right pollinator, inset the image with flow around text. Reuse Wikipedia API code.
   * E2E tests for the system as a whole, using CucumberJS and a WebDriver implementation to execute user-level specifications through user-like actions.
-  * Publish the pacts.
-  * Run them against the provider.
+  * Add some client-side JavaScript and provide in-browser tests.
   * Note in README that this is a full functional testing demo for a JS app rather than just a CDCT demo.
-  * Iterate consumer and provider.
