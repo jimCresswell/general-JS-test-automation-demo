@@ -3,8 +3,20 @@ Consumer driven contract testing (CDCT) demo using [Pact JS](https://github.com/
 
 The project has a provider service, which manages data about pollinator supporting plants in the UK, and a consumer project which does things with/to that data.
 
+## Project structure
+* [Provider](provider)
+* Express based CRUD app in front of a data model and in-memory data store.
+* [Consumer](consumer)
+* Express server-side web-app, talking to the provider service to get/store data. Also gets data from the Wikipedia REST API (for the extended plant data summaries).
+
 ## Usage
 For script execution `yarn` can be replaced with `npm run`.
+
+### Running
+All processes are started with [Nodemon](https://github.com/remy/nodemon) and are configured to restart the relevant server file change.
+ * `yarn start` Starts the whole system.
+ * `yarn start:consumer` Starts just the consumer.
+ * `yarn start:provider` Starts just the provider.
 
 ### Testing
 
@@ -31,12 +43,6 @@ These are tests call the app directly (Supertest automatically binds to an ephem
 
 #### Whole of System Testing
 Not yet implemented. Will use Cucumber and WebDriver to execute human readable specifications against the system.
-
-## Project structure
- * [Provider](provider)
-   * Express based CRUD app in front of a data model and in-memory data store.
- * [Consumer](consumer)
-   * Express server-side web-app, talking to the provider service to get/store data. Also gets data from the Wikipedia REST API (for the extended plant data summaries).
 
 ## To Do
   * Create the most basic implementation of the provider service possible. DONE.
