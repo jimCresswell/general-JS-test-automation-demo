@@ -13,81 +13,82 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const { Pact, Matchers } = require('@pact-foundation/pact');
 
+// Configure and import the consumer API.
+const { getPlants } = require('../app/models/data_api');
+
 chai.use(chaiAsPromised);
 const { expect } = chai;
 
 const LOG_LEVEL = process.env.LOG_LEVEL || 'WARN';
 
-// Configure and import the consumer API.
-const { getPlants } = require('../app/models/data_api');
 
 // Configure the Pact framework and get the `provider` object which allows
 // us to later specify the expected consumer-provider interactions including
 // the mock return data.
-describe('Pact:', () => {
-  const provider = new Pact({
-    consumer: 'Species UI App (Consumer)',
-    provider: 'Support Species App (Provider)',
-    // port: 1234, // Port for the mock provider. Set here or dynamically in `setup` below.
-    log: path.resolve(process.cwd(), 'logs', 'mockserver-integration.log'),
-    dir: path.resolve(process.cwd(), 'pacts'),
-    logLevel: LOG_LEVEL,
-    spec: 2,
-  });
+const provider = new Pact({
+  consumer: 'Species UI App (Consumer)',
+  provider: 'Support Species App (Provider)',
+  // port: 1234, // Port for the mock provider. Set here or dynamically in `setup` below.
+  log: path.resolve(process.cwd(), 'logs', 'mockserver-integration.log'),
+  dir: path.resolve(process.cwd(), 'pacts'),
+  logLevel: LOG_LEVEL,
+  spec: 2,
+});
 
-  // Alias some Pact flexible matchers for use in specifying mock return data.
-  // See https://github.com/pact-foundation/pact-js#match-common-formats .
-  const {
-    integer,
-    boolean,
-    string,
-    like,
-    eachLike,
-  } = Matchers;
+// Alias some Pact flexible matchers for use in specifying mock return data.
+// See https://github.com/pact-foundation/pact-js#match-common-formats .
+const {
+  integer,
+  boolean,
+  string,
+  like,
+  eachLike,
+} = Matchers;
 
+/*
+  Define the expected payload from the mock provider.
 
-  /*
-    Define the expected payload from the mock provider.
+  Using Flexible matchers to specify constraints on returned values
+  makes the test much more resilient to changes in real data. Matchers
+  can be for specific data type e.g. `string`, or infer the data type
+  from the argument using `like`. `eachLike` infers an array like the
+  specified data.
 
-    Using Flexible matchers to specify constraints on returned values
-    makes the test much more resilient to changes in real data. Matchers
-    can be for specific data type e.g. `string`, or infer the data type
-    from the argument using `like`. `eachLike` infers an array like the
-    specified data.
+  It is important to only specify or constrain parts of the data
+  the consumer cares about. The can and should be safely ignored,
+  this prevents the produced contracts (pacts) creating unnecessary
+  constraints on the specifed relationship between the
+  consumer and  provider systems.
+*/
+const plantExpectation = {
+  id: integer(1),
+  common_name: string('Purging Buckthorn'),
+  species: like('Rhamnus cathartica'),
+  perennial: boolean(true),
+  wikilink: like('https://en.wikipedia.org/wiki/Rhamnus_cathartica'),
+  notes: like('One of only two support species for the Brimstone butterfly.'),
+  supports: eachLike(
+    {
+      common_name: like('Brimstone Butterfly'),
+      species: like('Gonepteryx rhamni'),
+      wikilink: like('https://en.wikipedia.org/wiki/Gonepteryx_rhamni'),
+    }
+  ),
+};
 
-    It is important to only specify or constrain parts of the data
-    the consumer cares about. The can and should be safely ignored,
-    this prevents the produced contracts (pacts) creating unnecessary
-    constraints on the specifed relationship between the
-    consumer and  provider systems.
-   */
-  const plantExpectation = {
-    id: integer(1),
-    common_name: string('Purging Buckthorn'),
-    species: like('Rhamnus cathartica'),
-    perennial: boolean(true),
-    wikilink: like('https://en.wikipedia.org/wiki/Rhamnus_cathartica'),
-    notes: like('One of only two support species for the Brimstone butterfly.'),
-    supports: eachLike(
-      {
-        common_name: like('Brimstone Butterfly'),
-        species: like('Gonepteryx rhamni'),
-        wikilink: like('https://en.wikipedia.org/wiki/Gonepteryx_rhamni'),
-      }
-    ),
-  };
+/*
+  Define plant list expectation. Note it specifies the array of plants
+  but not e.g. the list-level name or description fields
+  (see provider/data/pollinator_support_species.json) as they are not
+  used in the consumer.
+*/
+const MIN_NUM_POLLINATORS = 5;
+const plantListExpectation = {
+  plants: eachLike(plantExpectation, { min: MIN_NUM_POLLINATORS }),
+};
 
-  /*
-    Define plant list expectation. Note it specifies the array of plants
-    but not e.g. the list-level name or description fields
-    (see provider/data/pollinator_support_species.json) as they are not
-    used in the consumer.
-   */
-  const MIN_NUM_POLLINATORS = 5;
-  const plantListExpectation = eachLike(plantExpectation, {
-    min: MIN_NUM_POLLINATORS,
-  });
-
+// Describe the tests.
+describe('Pact:', function () {
   /*
     Setup a server to return the mock provider data.
 
@@ -96,18 +97,23 @@ describe('Pact:', () => {
     fail if the expected interactions are not seen when checked
     with `provider.verify`.
    */
-  before(function () {
+  before(function (done) {
     provider.setup()
-      // Get the dynamic port assigned to the mock provider.
-      .then((opts) => { this.providerPort = opts.port; });
+      // Get the dynamic port assigned to the mock provider
+      // so we can tell the consumer which port to use.
+      .then((opts) => { this.providerPort = opts.port; })
+      .then(() => {
+        // Tell Mocha the asynch set up is finished.
+        done();
+      });
   });
 
   /*
     After each test with at least one interaction a check is made that the
     mock provider received the expected requests. This means we know that
 
-      * we made the right request for our expected mock payload
-        (the request comes from the consumer product code),
+      * the request for our expected mock payload (from the consumer product code),
+        matches the specification below
       * and, given the specifed mock return value, the consumer
         behaves as expected.
 
@@ -117,6 +123,10 @@ describe('Pact:', () => {
    */
   afterEach(() => provider.verify());
 
+  // After all the tests:
+  // write the created contracts to pact files for sharing with the provider.
+  after(() => provider.finalize());
+
   /*
     Verify that the consumer code, which interacts with the provider, functions
     as expected given our specification of the expected returned mock data.
@@ -124,45 +134,74 @@ describe('Pact:', () => {
     Depending on the consumer code design this could be seen as a unit
     or integration test.
    */
-  describe('The provider Support Species App', function () {
-    describe('returns a list of plants', function () {
-      // Set up the expected response from the mock provider.
-      before(function () {
-        provider.addInteraction({
-          state: 'Returns a list of plants',
-          uponReceiving: 'a request for the plants list',
-          withRequest: {
-            method: 'GET',
-            path: '/plants',
-            headers: { 'Example-Header': 'Some header value' },
-          },
-          willRespondWith: {
-            status: 200,
-            headers: {
-              'Content-Type': 'application/json; charset=utf-8',
+  describe('The Consumer Species UI App', function () {
+    describe('can get list of plants', function () {
+      describe('and handle success', function () {
+        // Set up the expected response from the mock provider.
+        before(function () {
+          provider.addInteraction({
+            state: 'Returns a list of plants',
+            uponReceiving: 'a request for the plants list',
+            withRequest: {
+              method: 'GET',
+              path: '/plants',
             },
-            body: plantListExpectation,
-          },
+            willRespondWith: {
+              status: 200,
+              headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+              },
+              body: plantListExpectation,
+            },
+          });
+        });
+
+        /*
+        The first actual test.  The tests in combination with the verify step
+        (to verify the expected request was made to the mock provider), are
+        enough information to create the contract (pact) for sharing.
+        */
+        it('gets plant list.', function () {
+          const httpLibrary = axios;
+          const port = this.providerPort;
+          const onError = function (err) { throw new Error(err); };
+          const plantList = getPlants(httpLibrary, port, onError);
+
+          return expect(plantList)
+            .to.eventually.have.lengthOf(MIN_NUM_POLLINATORS)
+            .and.have.nested.property(
+              '[0].common_name',
+              'Purging Buckthorn'
+            );
         });
       });
 
-      it('returns a list of plants', function () {
-        const httpLibrary = axios;
-        const port = this.providerPort;
-        const onError = function (err) { throw new Error(err); };
-        const plantList = getPlants(httpLibrary, port, onError);
+      describe('and handle a network error', function () {
+        // Set up the expected response from the mock provider.
+        before(function () {
+          provider.addInteraction({
+            state: 'Network error',
+            uponReceiving: 'a request for the plants list',
+            withRequest: {
+              method: 'GET',
+              path: '/plants',
+            },
+            willRespondWith: {
+              status: 500,
+            },
+          });
+        });
 
-        return expect(plantList)
-          .to.eventually.have.property('plants')
-          .with.lengthOf(MIN_NUM_POLLINATORS)
-          .and.to.eventually.have.deep.property(
-            'plants[0].common_name',
-            'Purging Buckthorn'
-          );
+        it('processes the error with the provided callback.', function () {
+          const httpLibrary = axios;
+          const port = this.providerPort;
+          const onError = (err) => err.toString();
+          const errorMessage = getPlants(httpLibrary, port, onError);
+
+          return expect(errorMessage)
+            .to.eventually.include('Request failed with status code 500');
+        });
       });
     });
   });
-
-  // Write the created contracts to pact files for sharing with the provider.
-  after(() => provider.finalize());
 });

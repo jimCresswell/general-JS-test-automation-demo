@@ -50,7 +50,10 @@ describe('The Pollinator Support Species UI', function () {
       this.axiosMock
         .onGet(`http://localhost:${this.mockProviderPort}/plants`)
         .reply(200, {
-          plants: [{ common_name: this.commonName }],
+          plants: [{
+            common_name: this.commonName,
+            wikilink: 'http://example.com',
+          }],
         })
         .onAny().passThrough();
     });
@@ -63,8 +66,8 @@ describe('The Pollinator Support Species UI', function () {
         .expect((res) => {
           const $ = cheerio.load(res.text);
           const text = $('title').text();
-          cExpect(text).to.equal('Pollinator Support Species');
-          cExpect($('li').text()).to.equal(this.commonName);
+          cExpect(text).to.equal('Pollinator Supporting Plants');
+          cExpect($('h2').text()).to.include(this.commonName);
         })
         .end(done);
     });
