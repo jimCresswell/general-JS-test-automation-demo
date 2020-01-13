@@ -5,10 +5,6 @@
 /* eslint prefer-arrow-callback: off, func-names: off */
 
 const { Verifier } = require('@pact-foundation/pact');
-// const chai = require('chai');
-// const chaiAsPromised = require('chai-as-promised');
-//
-// chai.use(chaiAsPromised);
 
 /** @todo Expose data manipulation functions for test state control. */
 const app = require('../app/support_species_app.js');
