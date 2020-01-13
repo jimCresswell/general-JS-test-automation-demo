@@ -135,7 +135,7 @@ describe('Pact:', function () {
     or integration test.
    */
   describe('The Consumer Species UI App', function () {
-    describe('can get list of plants', function () {
+    describe('can get a list of plants', function () {
       describe('and handle success', function () {
         // Set up the expected response from the mock provider.
         before(function () {
