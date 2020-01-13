@@ -59,10 +59,19 @@ describe('The Pollinator Support Species UI', function () {
           .reply(200, {
             plants: [{
               common_name: this.commonName,
-              wikilink: 'http://example.com',
+              wikilink: 'http://en.wikipedia.org/wiki/not_a_page',
             }],
           })
-          .onAny().passThrough();
+          // Don't bother Wikipedia during testing.
+          .onGet(/https:\/\/en.wikipedia.org\/api\/rest_v1\/.*/)
+          .reply(200, {
+            extract_html: '<p id="testSummary">A wiki page summary.</p>',
+          })
+          // Need this so the Supertest calls to the web UI server don't get
+          // captured, the mock-adapter might be modifying the Node http object
+          // under the hood or something like that.
+          .onAny()
+          .passThrough();
       });
 
       it('main route responds with HTML.', function (done) {
@@ -75,6 +84,7 @@ describe('The Pollinator Support Species UI', function () {
             const text = $('title').text();
             cExpect(text).to.equal('Pollinator Supporting Plants');
             cExpect($('h2').text()).to.include(this.commonName);
+            cExpect($('#testSummary').text()).to.include('A wiki page summary');
           })
           .end(done);
       });
@@ -86,7 +96,14 @@ describe('The Pollinator Support Species UI', function () {
         this.axiosMock
           .onGet(`http://localhost:${this.mockProviderPort}/plants`)
           .networkError();
-        this.axiosMock.onAny().passThrough();
+        this.axiosMock
+          // Don't bother Wikipedia during testing.
+          .onGet(/https:\/\/en.wikipedia.org\/api\/rest_v1\/.*/)
+          .reply(200, {
+            extract_html: '<p id="testSummary">A wiki page summary.</p>',
+          })
+          .onAny()
+          .passThrough();
       });
 
       // Note that the error message will also appear in the console
