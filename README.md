@@ -22,7 +22,7 @@ The unit tests live with modules they test e.g. `my_module.js` will have a `my_m
 These have a different intent from the contract tests. On the consumer side they test the whole consumer service rather than just the module that talks to the provider service. On the provider side they test all provider service end-points whereas the contract tests by design only test the interactions and returned payload data required by the consumer service.
 
 ##### Consumer
-`yarn test:e2e:consumer` Consumer end-to-end API sanity test with [supertest](https://github.com/visionmedia/supertest). Where a network interaction is tested HTTP calls and responses are mocked with [Axios Mock Adapter](https://github.com/ctimmerm/axios-mock-adapter). Returned HTML is parsed with [Cheerio](https://github.com/cheeriojs/cheerio).
+`yarn test:e2e:consumer` Consumer end-to-end API sanity test with [supertest](https://github.com/visionmedia/supertest). Where a network interaction is tested HTTP calls and responses are mocked with [Axios Mock Adapter](https://github.com/ctimmerm/axios-mock-adapter). Returned HTML is parsed with [Cheerio](https://github.com/cheeriojs/cheerio).  These tests are in the [consumer/e2e_test](consumer/e2e_test) directory.
 
 ##### Provider
 `yarn test:e2e:provider` Provider end-to-end API sanity test with [supertest](https://github.com/visionmedia/supertest). These tests are in the [provider/e2e_test](provider/e2e_test) directory.
@@ -34,32 +34,21 @@ Not yet implemented. Will use Cucumber and WebDriver to execute human readable s
 
 ## Project structure
  * [Provider](provider)
-   * Express CRUD app in front of a data model and "database"
+   * Express based CRUD app in front of a data model and in-memory data store.
  * [Consumer](consumer)
-   * Express web-app with mostly (entirely?) server-side service logic, talking to the provider service to get/store data. Also gets data from the Wikipedia REST API (for the extended plant data summaries).
-
-## Notes on development/test approach
-  * Provider and Consumer.
-    * BDD unit tests that work as living engineering documentation, to complement the JSDocs. (Investigate linking to the two, as well as markdown files).
-    * Consumer driven contract testing, with pacts created by unit testing the consumer's network interaction code, then verified by the provider, with that verification status published.
-  * Provider
-    * API driven development for the network interactions using Supertest. This precedes consumer driven contract testing (CDCT), most APIs undergo some development before they have consumers. This may be entirely replaced by CDCT, or continue to function as an e2e sanity test.
-  * Consumer
-    * E2E test through UI with fake network interactions, see [consumer/e2e_test/README.md][consumer/e2e_test/README.md].
-    * BDD unit tests of any client-side JavaScript.
-  * Whole System
-    * Cucumber + WebDriver tests for key user journeys only.
+   * Express server-side web-app, talking to the provider service to get/store data. Also gets data from the Wikipedia REST API (for the extended plant data summaries).
 
 ## To Do
   * Create the most basic implementation of the provider service possible. DONE.
   * Create the skeleton for the consumer service. DONE.
     * Server-side data interactions with the provider. DONE.
     * Server-side rendering of UI. Unit tests. Integration tests as required. DONE.
-  * Create consumer driven contract tests between consumer and provider.
-    * Consumer tests
-    * Publish the pacts.
-    * Run them against the provider.
+  * Create consumer driven contract tests between consumer and provider. DONE.
+    * Consumer tests DONE.
+    * Publish the pacts. DONE.
+    * Run them against the provider. DONE.
+    * Publish the verification results. DONE.
   * Add UI section on which species of pollinator are supported. Two columns, left plant, right pollinator, inset the image with flow around text. Reuse Wikipedia API code.
-  * E2E tests for the system as a whole, using CucumberJS and a WebDriver implementation to execute user-level specifications through user-like actions.
-  * Add some client-side JavaScript and provide in-browser tests.
+  * E2E tests for the system as a whole, using Cucumber JS and a WebDriver implementation to execute user-level specifications through user-like actions.
+  * Add some client-side JavaScript and provide in-browser tests (?).
   * Note in README that this is a full functional testing demo for a JS app rather than just a CDCT demo.
