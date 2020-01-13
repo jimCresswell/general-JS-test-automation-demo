@@ -30,7 +30,7 @@ const provider = new Pact({
   provider: 'Support Species App (Provider)',
   // port: 1234, // Port for the mock provider. Set here or dynamically in `setup` below.
   log: path.resolve(process.cwd(), 'logs', 'mockserver-integration.log'),
-  dir: path.resolve(process.cwd(), 'pacts'),
+  dir: path.resolve(process.cwd(), 'pacts_consumer'),
   logLevel: LOG_LEVEL,
   spec: 2,
 });
