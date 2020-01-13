@@ -30,11 +30,14 @@ partialFileNames.forEach((fileName) => {
  * Get the Express app, allows dependency injection.
  * @param  {Object} axios A network interaction library.
  * @param  {string|int} providerPort The port the provider data API is operating on.
+ * @param  {boolean} disableLogging Disable logging if true (for clean test output).
  * @return {App}       The configured Express app.
  */
-function getApp(axios, providerPort) {
+function getApp(axios, providerPort, disableLogging) {
   // Logging.
-  app.use(morgan('dev'));
+  if (!disableLogging) {
+    app.use(morgan('dev'));
+  }
 
   app.use('/', getUiRouter(axios, providerPort));
 

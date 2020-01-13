@@ -20,7 +20,7 @@ function getRouter(axios, providerPort) {
 
   router.get('/', (req, res, next) => {
     dataApi
-      .getPlants(axios, providerPort, next)
+      .getPlants(axios, providerPort)
       .then((plantList) => wikiApi.attachSummaries(axios, plantList))
       .then((plantList) => res.render('index', { plants: plantList }))
       .catch((err) => next(err));

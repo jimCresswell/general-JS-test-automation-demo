@@ -175,33 +175,6 @@ describe('Pact:', function () {
             );
         });
       });
-
-      describe('and handle a network error', function () {
-        // Set up the expected response from the mock provider.
-        before(function () {
-          provider.addInteraction({
-            state: 'Network error',
-            uponReceiving: 'a request for the plants list',
-            withRequest: {
-              method: 'GET',
-              path: '/plants',
-            },
-            willRespondWith: {
-              status: 500,
-            },
-          });
-        });
-
-        it('processes the error with the provided callback.', function () {
-          const httpLibrary = axios;
-          const port = this.providerPort;
-          const onError = (err) => err.toString();
-          const errorMessage = getPlants(httpLibrary, port, onError);
-
-          return expect(errorMessage)
-            .to.eventually.include('Request failed with status code 500');
-        });
-      });
     });
   });
 });

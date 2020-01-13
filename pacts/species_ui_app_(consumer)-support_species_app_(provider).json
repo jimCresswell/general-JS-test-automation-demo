@@ -140,20 +140,6 @@
         }
       },
       "metadata": null
-    },
-    {
-      "description": "a request for the plants list",
-      "providerState": "Network error",
-      "request": {
-        "method": "GET",
-        "path": "/plants"
-      },
-      "response": {
-        "status": 500,
-        "headers": {
-        }
-      },
-      "metadata": null
     }
   ],
   "metadata": {
