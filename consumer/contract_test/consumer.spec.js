@@ -1,6 +1,8 @@
 
 /**
  * The consumer side of the consumer driven contract tests.
+ *
+ * Created with PactJS https://github.com/pact-foundation/pact-js .
  */
 
 /* eslint prefer-arrow-callback: off, func-names: off */
@@ -16,14 +18,16 @@ const { expect } = chai;
 
 const LOG_LEVEL = process.env.LOG_LEVEL || 'WARN';
 
-// Configure and import consumer API
-// Note that we update the API endpoint to point at the Mock Service
+// Configure and import the consumer API.
 const { getPlants } = require('../app/models/data_api');
 
-describe('Pact', () => {
+// Configure the Pact framework and get the `provider` object which allows
+// us to later specify the expected consumer-provider interactions including
+// the mock return data.
+describe('Pact:', () => {
   const provider = new Pact({
-    consumer: 'Matching Service',
-    provider: 'Animal Profile Service',
+    consumer: 'Species UI App (Consumer)',
+    provider: 'Support Species App (Provider)',
     // port: 1234, // Port for the mock provider. Set here or dynamically in `setup` below.
     log: path.resolve(process.cwd(), 'logs', 'mockserver-integration.log'),
     dir: path.resolve(process.cwd(), 'pacts'),
@@ -31,114 +35,134 @@ describe('Pact', () => {
     spec: 2,
   });
 
-  // Alias flexible matchers for simplicity
+  // Alias some Pact flexible matchers for use in specifying mock return data.
+  // See https://github.com/pact-foundation/pact-js#match-common-formats .
   const {
-    eachLike,
+    integer,
+    boolean,
+    string,
     like,
-    term,
-    iso8601DateTimeWithMillis,
+    eachLike,
   } = Matchers;
 
-  const MIN_NUM_POLLINATORS = 5;
 
-  // Define animal payload, with flexible matchers
-  //
-  // This makes the test much more resilient to changes in actual data.
-  // Here we specify the 'shape' of the object that we care about.
-  // It is also import here to not put in expectations for parts of the
-  // API we don't care about
-  const animalBodyExpectation = {
-    id: like(1),
-    available_from: iso8601DateTimeWithMillis(),
-    first_name: like('Billy'),
-    last_name: like('Goat'),
-    animal: like('goat'),
-    age: like(21),
-    gender: term({
-      matcher: 'F|M',
-      generate: 'M',
-    }),
-    location: {
-      description: like('Melbourne Zoo'),
-      country: like('Australia'),
-      post_code: like(3000),
-    },
-    eligibility: {
-      available: like(true),
-      previously_married: like(false),
-    },
-    interests: eachLike('walks in the garden/meadow'),
+  /*
+    Define the expected payload from the mock provider.
+
+    Using Flexible matchers to specify constraints on returned values
+    makes the test much more resilient to changes in real data. Matchers
+    can be for specific data type e.g. `string`, or infer the data type
+    from the argument using `like`. `eachLike` infers an array like the
+    specified data.
+
+    It is important to only specify or constrain parts of the data
+    the consumer cares about. The can and should be safely ignored,
+    this prevents the produced contracts (pacts) creating unnecessary
+    constraints on the specifed relationship between the
+    consumer and  provider systems.
+   */
+  const plantExpectation = {
+    id: integer(1),
+    common_name: string('Purging Buckthorn'),
+    species: like('Rhamnus cathartica'),
+    perennial: boolean(true),
+    wikilink: like('https://en.wikipedia.org/wiki/Rhamnus_cathartica'),
+    notes: like('One of only two support species for the Brimstone butterfly.'),
+    supports: eachLike(
+      {
+        common_name: like('Brimstone Butterfly'),
+        species: like('Gonepteryx rhamni'),
+        wikilink: like('https://en.wikipedia.org/wiki/Gonepteryx_rhamni'),
+      }
+    ),
   };
 
-  // Define animal list payload, reusing existing object matcher
-  const animalListExpectation = eachLike(animalBodyExpectation, {
+  /*
+    Define plant list expectation. Note it specifies the array of plants
+    but not e.g. the list-level name or description fields
+    (see provider/data/pollinator_support_species.json) as they are not
+    used in the consumer.
+   */
+  const MIN_NUM_POLLINATORS = 5;
+  const plantListExpectation = eachLike(plantExpectation, {
     min: MIN_NUM_POLLINATORS,
   });
 
-  // Setup a Mock Server before unit tests run.
-  // This server acts as a Test Double for the real Provider API.
-  // We then call addInteraction() for each test to configure the Mock Service
-  // to act like the Provider
-  // It also sets up expectations for what requests are to come, and will fail
-  // if the calls are not seen.
+  /*
+    Setup a server to return the mock provider data.
+
+    The `provider.addInteraction` function is later called for each test
+    to specify the interactions with the mock for that test. The test will
+    fail if the expected interactions are not seen when checked
+    with `provider.verify`.
+   */
   before(function () {
     provider.setup()
       // Get the dynamic port assigned to the mock provider.
       .then((opts) => { this.providerPort = opts.port; });
   });
 
-  // After each individual test (one or more interactions)
-  // we validate that the correct request came through.
-  // This ensures what we _expect_ from the provider, is actually
-  // what we've asked for (and is what gets captured in the contract)
+  /*
+    After each test with at least one interaction a check is made that the
+    mock provider received the expected requests. This means we know that
+
+      * we made the right request for our expected mock payload
+        (the request comes from the consumer product code),
+      * and, given the specifed mock return value, the consumer
+        behaves as expected.
+
+   Those pieces of information are sufficient to construct a valid interaction
+   contract (pact) which can be used by the provider to check that a given
+   version of the API will satisfy the needs of this version of the consumer.
+   */
   afterEach(() => provider.verify());
 
-  // Verify service client works as expected.
-  //
-  // Note that we don't call the consumer API endpoints directly, but
-  // use unit-style tests that test the collaborating function behaviour -
-  // we want to test the function that is calling the external service.
-  describe('when a call to list all animals from the Animal Service is made', function () {
-    describe('and the user is authenticated', function () {
-      describe('and there are animals in the database', function () {
-        before(function () {
-          provider.addInteraction({
-            state: 'Has some animals',
-            uponReceiving: 'a request for all animals',
-            withRequest: {
-              method: 'GET',
-              path: '/animals/available',
-              headers: { Authorization: 'Bearer token' },
+  /*
+    Verify that the consumer code, which interacts with the provider, functions
+    as expected given our specification of the expected returned mock data.
+
+    Depending on the consumer code design this could be seen as a unit
+    or integration test.
+   */
+  describe('The provider Support Species App', function () {
+    describe('returns a list of plants', function () {
+      // Set up the expected response from the mock provider.
+      before(function () {
+        provider.addInteraction({
+          state: 'Returns a list of plants',
+          uponReceiving: 'a request for the plants list',
+          withRequest: {
+            method: 'GET',
+            path: '/plants',
+            headers: { 'Example-Header': 'Some header value' },
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
             },
-            willRespondWith: {
-              status: 200,
-              headers: {
-                'Content-Type': 'application/json; charset=utf-8',
-              },
-              body: animalListExpectation,
-            },
-          });
+            body: plantListExpectation,
+          },
         });
+      });
 
-        it('returns a list of animals', function (done) {
-          const httpLibrary = axios;
-          const port = this.providerPort;
-          const onError = function (err) { throw new Error(err); };
-          const plantList = getPlants(httpLibrary, port, onError);
+      it('returns a list of plants', function () {
+        const httpLibrary = axios;
+        const port = this.providerPort;
+        const onError = function (err) { throw new Error(err); };
+        const plantList = getPlants(httpLibrary, port, onError);
 
-          expect(plantList).to.eventually.have.deep.property(
-            'suggestions[0].score',
-            94
+        return expect(plantList)
+          .to.eventually.have.property('plants')
+          .with.lengthOf(MIN_NUM_POLLINATORS)
+          .and.to.eventually.have.deep.property(
+            'plants[0].common_name',
+            'Purging Buckthorn'
           );
-          expect(plantList)
-            .to.eventually.have.property('suggestions')
-            .with.lengthOf(MIN_NUM_POLLINATORS)
-            .notify(done);
-        });
       });
     });
   });
 
-  // Write pact files
+  // Write the created contracts to pact files for sharing with the provider.
   after(() => provider.finalize());
 });
