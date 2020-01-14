@@ -39,10 +39,12 @@
               <div class="card">
                 <div class="card-body">
                   <h3 class="card-title">Supported Species</h3>
-                  <dl class="card-text">
+                  <dl class="card-text list-group list-group-flush">
                   {{#each supports}}
-                    <dt><h4>{{common_name}}</h4></dt>
-                    <dd><a href={{wikilink}}>{{species}}</a></dd>
+                    <div class="list-group-item">
+                      <dt><h4>{{common_name}}</h4></dt>
+                      <dd><a href={{wikilink}}>{{species}}</a></dd>
+                    </div>
                   {{/each}}
                   </dl>
                 </div>
