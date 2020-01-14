@@ -7,7 +7,8 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "test:unit": "mocha --config .mocharc.unit.yaml",
+    "test:unit:consumer": "mocha --config .mocharc.unit.yaml './consumer/**/*.test.js'",
+    "test:unit:provider": "mocha --config .mocharc.unit.yaml './provider/**/*.test.js'",
     "test:unit:debug": "mocha --config .mocharc.unit.yaml --inspect-brk",
     "test:e2e:consumer": "mocha './consumer/e2e_test/**/*.spec.js'",
     "test:e2e:provider": "mocha './provider/e2e_test/**/*.spec.js'",
