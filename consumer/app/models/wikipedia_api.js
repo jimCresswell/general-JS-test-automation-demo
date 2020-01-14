@@ -1,3 +1,4 @@
+const flattenDeep = require('lodash.flattendeep');
 
 /**
  * Get the Wikipedia entry title from a Wikipedia URL.
@@ -24,31 +25,63 @@ function getSummary(axios, title) {
       headers: {
         'User-Agent': 'Contact: https://github.com/jimCresswell/pactjs-test-demo/issues',
       },
-    })
-    .catch((err) => ({ err: err.toString() }));
+    });
 }
 
 /**
-* Get the Wikipedia page summaries for each plant and attach them to the data.
+* Get the Wikipedia page summaries for each plant and supported species
+* and attach them to the data.
 * @param  {Object} axios A network interaction library.
 * @param  {Object} plantData The data for all the plants.
 * @return {Promise}          A promise for the updated plant data.
 */
 function attachSummaries(axios, plantData) {
-  const summaryPromises = plantData.map((plant, index) => {
+  /**
+  * @note In a real app it would be a bad idea to asynchronoulsy modify an array,
+  * changes to array lenghts would cause race condition bugs.
+  */
+
+  /** @todo rewrite as a single pass over the data object */
+
+  // Get the plant species requests.
+  const plantPromises = plantData.map((plant, index) => {
     const title = parseTitle(plant.wikilink);
     return getSummary(axios, title)
+      /* eslint-disable no-param-reassign */
       .then((reply) => {
         // Modify the plant data to include the summary.
-        /** @todo If this was a real app modify a copy of the data to avoid side-effects. */
-        /* eslint-disable no-param-reassign */
         plantData[index].wikiSummary = reply.data;
-        /* eslint-enable no-param-reassign */
+      })
+      .catch((err) => {
+        plantData[index].wikiSummary = { errored: true, err };
       });
+    /* eslint-enable no-param-reassign */
   });
 
+  /* eslint-disable arrow-body-style */
+  const supportedSpeciesPromises = plantData.map((plant, plantIndex) => {
+    return plant.supports.map((species, speciesIndex) => {
+      const title = parseTitle(species.wikilink);
+      /* eslint-disable no-param-reassign */
+      return getSummary(axios, title)
+        .then((reply) => {
+          // Modify the supported species data to include the summary.
+          plantData[plantIndex].supports[speciesIndex].wikiSummary = reply.data;
+        })
+        .catch((err) => {
+          plantData[plantIndex].supports[speciesIndex].wikiSummary = { errored: true, err };
+        });
+      /* eslint-enable no-param-reassign */
+    });
+  });
+  /* eslint-enable arrow-body-style */
+
+  // Flatten the supported species array of arrays of promises,
+  // and join with the plant promises.
+  const summaryPromises = [].concat(plantPromises, flattenDeep(supportedSpeciesPromises));
+
   // Once all the promises are settled return the modified plant data.
-  // Errors are handled by adding an `err` property to the plant data entry (in `getSummary`).
+  // Errors are handled by adding an `err` property to the wikiSummary entries.
   return Promise.allSettled(summaryPromises)
     .then(() => plantData);
 }

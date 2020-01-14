@@ -2,7 +2,8 @@
   eslint
   prefer-arrow-callback: off,
   func-names: off,
-  no-unused-expressions: off
+  no-unused-expressions: off,
+  max-len: off
 */
 
 const chai = require('chai');
@@ -27,7 +28,7 @@ describe('The Wikipedia model non-network functions', function () {
 
 describe('The Wikipedia model network functions', function () {
   before(function () {
-    this.testTitle = 'My test title.';
+    this.testTitle = 'My test title';
 
     // Iniate the mocking of the back-end (provider) service calls.
     this.axios = axios;
@@ -42,11 +43,21 @@ describe('The Wikipedia model network functions', function () {
   });
 
   it('can attach summaries (attachSummaries)', function () {
-    const plantData = [{ name: 'some plant', wikilink: 'http://example.com' }];
+    const plantData = [{
+      name: 'some plant',
+      wikilink: 'http://example.com/plant',
+      supports: [{
+        wikilink: 'http://example.com/supported',
+      }],
+    }];
+
     const data = wikiApi.attachSummaries(this.axios, plantData);
-    return expect(data)
-      .to.eventually.be.an('array')
-      .which.has.nested.property('[0].wikiSummary.title', this.testTitle);
+
+    return Promise.all([
+      expect(data).to.eventually.be.an('array'),
+      expect(data).to.eventually.have.nested.property('[0].wikiSummary.title', this.testTitle),
+      expect(data).to.eventually.have.nested.property('[0].supports[0].wikiSummary.title', this.testTitle),
+    ]);
   });
 
   after(function () {

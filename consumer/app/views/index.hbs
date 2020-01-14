@@ -2,8 +2,8 @@
 {{> start_page}}
     <title>Pollinator Supporting Plants</title>
 {{> end_head_start_body}}
-    <article class="container pt-5">
-      <header class="row text-center mb-5">
+    <article class="container text-center pt-5">
+      <header class="row mb-5">
         <h1 class="col display-4">Pollinator Supporting Plants</h1>
       </header>
       <main class="row">
@@ -11,28 +11,69 @@
           <dl>
             {{#each plants}}
             <dt class="row">
-              <h2 class="col-md text-center display-5">
-                {{common_name}} <small><a href={{wikilink}}>{{species}}</a></small>
-              </h2>
+              <h2 class="col-md display-5">{{> species_link}}</h2>
             </dt>
-            <dd class="row mb-3">
-              <div class="col-md text-center">
+            <dd class="row mb-2">
+              <div class="col-md">
                 <p>{{notes}}</p>
               </div>
             </dd>
             {{#if wikiSummary}}
-            <dd class="row mb-5 justify-content-center">
-              {{! Conditionally render errors, wouldn't do this in production}}
-              {{#if wikiSummary.err}}
-              <p class="col-md err">wikiSummary.err</p>
-              {{else}}
-              <figure class="col-auto">
-                <img class="img-fluid" src="{{wikiSummary.thumbnail.source}}" alt="{{wikiSummary.title}}">
-                <figcaption><small>{{wikiSummary.title}}: {{wikiSummary.description}}</small></figcaption>
-              </figure>
-              <blockquote class="col-md-6" cite="{{wikilink}}">{{{wikiSummary.extract_html}}}</blockquote>
-              {{/if}}
+            <dd class="card-group mb-5">
+              <div class="card">
+                <div class="card-body pt-2">
+                  <header class="card-header bg-transparent mb-2 pt-0">
+                    <h3 class="card-title mb-0">{{common_name}} Details</h3>
+                  </header>
+                  <figure class="figure">
+                    <img class="figure-img img-fluid card-img" src="{{wikiSummary.originalimage.source}}" {{> wiki_img_details}}>
+                    <figcaption class="figure-caption">{{> wiki_short_desc}}</figcaption>
+                  </figure>
+                  <blockquote class="card-text text-md-left" cite="{{wikilink}}">
+                      {{{wikiSummary.extract_html}}}
+                  </blockquote>
+                  <footer class="card-footer bg-transparent">
+                    <p class="mb-0">More on <a href="{{wikilink}}">Wikipedia</a></p>
+                  </footer>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-body pt-2">
+                  <header class="card-header bg-transparent mb-2 pt-0">
+                    <h3 class="card-title mb-0">Supported Species</h3>
+                  </header>
+                  <dl class="card-text list-group list-group-flush">
+                  {{#each supports}}
+                    <div class="list-group-item">
+                      <article class="card border-0">
+                        <dt><h4>{{common_name}}</h4></dt>
+                        <dd><a href={{wikilink}}>{{species}}</a></dd>
+                        {{#if wikiSummary}}
+                        {{#if wikiSummary.err}}
+                        {{{wikiSummary.err}}}
+                        {{/if}}
+                        <dd class="">
+                          <img class="img-fluid card-img w-75 rounded-0 mb-2" src="{{wikiSummary.originalimage.source}}" {{> wiki_img_details}}>
+                          <blockquote class="card-text" cite="{{wikilink}}">
+                            {{{wikiSummary.extract_html}}}
+                          </blockquote>
+                        </dd>
+                        {{/if}}
+                      </article>
+                    </div>
+                  {{/each}}
+                  </dl>
+                </div>
+              </div>
             </dd>
+            {{else}}
+            <div class="row justify-content-center text-secondary mb-5">
+              <article class="col-md-6 card mx-1">
+                <div class="card-body">
+                  <p class="card-text">Could not get further information from Wikipedia with link <a href={{wikilink}}>{{wikilink}}</a>.</p>
+                </div>
+              </article>
+            </div>
             {{/if}}
             {{/each}}
           </dl>

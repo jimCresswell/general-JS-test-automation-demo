@@ -60,6 +60,11 @@ describe('The Pollinator Support Species UI', function () {
             plants: [{
               common_name: this.commonName,
               wikilink: 'http://en.wikipedia.org/wiki/not_a_page',
+              supports: [
+                {
+                  wikilink: 'http://en.wikipedia.org/wiki/also_not_a_page',
+                },
+              ],
             }],
           })
           // Don't bother Wikipedia during testing.
