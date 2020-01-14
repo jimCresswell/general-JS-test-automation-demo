@@ -19,14 +19,16 @@
               </div>
             </dd>
             {{#if wikiSummary}}
-            <dd class="card-deck mb-5 justify-content-center ">
+            <dd class="card-group mb-5 justify-content-center ">
               {{! Conditionally render errors, wouldn't do this in production}}
               {{#if wikiSummary.err}}
               <p class="col-md err">wikiSummary.err</p>
               {{else}}
               <div class="card">
                 <div class="card-body">
-                  <h3 class="card-title">Details</h3>
+                  <header class="card-header bg-transparent mb-3">
+                    <h3 class="card-title">Details</h3>
+                  </header>
                   <figure class="figure">
                     <img class="figure-img img-fluid card-img" src="{{wikiSummary.originalimage.source}}" title="{{> wiki_short_desc}}" alt="{{> wiki_short_desc}}">
                     <figcaption class="figure-caption">{{> wiki_short_desc}}</figcaption>
@@ -34,11 +36,16 @@
                   <blockquote class="card-text text-md-left" cite="{{wikilink}}">
                       {{{wikiSummary.extract_html}}}
                   </blockquote>
+                  <footer class="card-footer bg-transparent">
+                    <p class="mb-0">More on <a href="{{wikilink}}">Wikipedia</a></p>
+                  </footer>
                 </div>
               </div>
               <div class="card">
                 <div class="card-body">
-                  <h3 class="card-title">Supported Species</h3>
+                  <header class="card-header bg-transparent mb-3">
+                    <h3 class="card-title">Supported Species</h3>
+                  </header>
                   <dl class="card-text list-group list-group-flush">
                   {{#each supports}}
                     <div class="list-group-item">
