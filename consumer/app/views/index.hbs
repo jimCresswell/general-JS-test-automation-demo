@@ -27,8 +27,11 @@
               <div class="card">
                 <div class="card-body">
                   <h3 class="card-title">Details</h3>
-                  <img class="img-fluid rounded card-img" src="{{wikiSummary.originalimage.source}}" title="{{> wiki_short_desc}}" alt="{{> wiki_short_desc}}">
-                  <blockquote class="card-text" cite="{{wikilink}}">
+                  <figure class="figure">
+                    <img class="figure-img img-fluid card-img" src="{{wikiSummary.originalimage.source}}" title="{{> wiki_short_desc}}" alt="{{> wiki_short_desc}}">
+                    <figcaption class="figure-caption">{{> wiki_short_desc}}</figcaption>
+                  </figure>
+                  <blockquote class="card-text text-md-left" cite="{{wikilink}}">
                       {{{wikiSummary.extract_html}}}
                   </blockquote>
                 </div>
