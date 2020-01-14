@@ -19,11 +19,7 @@
               </div>
             </dd>
             {{#if wikiSummary}}
-            <dd class="card-group mb-5 justify-content-center ">
-              {{! Conditionally render errors, wouldn't do this in production}}
-              {{#if wikiSummary.err}}
-              <p class="col-md err">wikiSummary.err</p>
-              {{else}}
+            <dd class="card-group mb-5 justify-content-center">
               <div class="card">
                 <div class="card-body">
                   <header class="card-header bg-transparent mb-3">
@@ -56,8 +52,15 @@
                   </dl>
                 </div>
               </div>
-              {{/if}}
             </dd>
+            {{else}}
+            <div class="row justify-content-center text-secondary mb-5">
+              <article class="col-md-6 card mx-1">
+                <div class="card-body">
+                  <p class="card-text">Could not get further information from Wikipedia with link <a href={{wikilink}}>{{wikilink}}</a>.</p>
+                </div>
+              </article>
+            </div>
             {{/if}}
             {{/each}}
           </dl>
