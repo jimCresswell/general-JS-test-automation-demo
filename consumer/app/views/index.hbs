@@ -11,13 +11,11 @@
           <dl>
             {{#each plants}}
             <dt class="row">
-              <h2 class="col-md text-center display-5">
-                {{common_name}} <small><a href={{wikilink}}>{{species}}</a></small>
-              </h2>
+              <h2 class="col-md text-center display-5">{{> species_link}}</h2>
             </dt>
             <dd class="row mb-3">
               <div class="col-md text-center">
-                <p>{{notes}}</p>
+                <p class="mb-0">{{notes}}</p>
               </div>
             </dd>
             {{#if wikiSummary}}
@@ -26,11 +24,23 @@
               {{#if wikiSummary.err}}
               <p class="col-md err">wikiSummary.err</p>
               {{else}}
-              <figure class="col-auto">
-                <img class="img-fluid" src="{{wikiSummary.thumbnail.source}}" alt="{{wikiSummary.title}}">
-                <figcaption><small>{{wikiSummary.title}}: {{wikiSummary.description}}</small></figcaption>
-              </figure>
-              <blockquote class="col-md-6" cite="{{wikilink}}">{{{wikiSummary.extract_html}}}</blockquote>
+              <div class="col-md-6">
+                <h3 class="mb-3"><small>Details</small></h3>
+                <blockquote class="" cite="{{wikilink}}">
+                  <img class="img-fluid img-thumbnail float-left w-50 mt-2 mr-3 mb-2" src="{{wikiSummary.thumbnail.source}}" title="{{> wiki_short_desc}}" alt="{{> wiki_short_desc}}">
+                  <div class="">
+                    {{{wikiSummary.extract_html}}}
+                  </div>
+                </blockquote>
+              </div>
+              <div class="col-md-6">
+                <h3 class="mb-3"><small>Supported Species</small></h3>
+                  <ul>
+                  {{#each supports}}
+                    <li>{{> species_link}}</li>
+                  {{/each}}
+                  </ul>
+              </div>
               {{/if}}
             </dd>
             {{/if}}
