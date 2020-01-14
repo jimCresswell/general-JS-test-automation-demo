@@ -21,12 +21,12 @@
             {{#if wikiSummary}}
             <dd class="card-group mb-5">
               <div class="card">
-                <div class="card-body">
-                  <header class="card-header bg-transparent mb-3">
-                    <h3 class="card-title">Details</h3>
+                <div class="card-body pt-2">
+                  <header class="card-header bg-transparent mb-2 pt-0">
+                    <h3 class="card-title mb-0">{{common_name}} Details</h3>
                   </header>
                   <figure class="figure">
-                    <img class="figure-img img-fluid card-img" src="{{wikiSummary.originalimage.source}}" title="{{> wiki_short_desc}}" alt="{{> wiki_short_desc}}">
+                    <img class="figure-img img-fluid card-img" src="{{wikiSummary.originalimage.source}}" {{> wiki_img_details}}>
                     <figcaption class="figure-caption">{{> wiki_short_desc}}</figcaption>
                   </figure>
                   <blockquote class="card-text text-md-left" cite="{{wikilink}}">
@@ -38,15 +38,28 @@
                 </div>
               </div>
               <div class="card">
-                <div class="card-body">
-                  <header class="card-header bg-transparent mb-3">
-                    <h3 class="card-title">Supported Species</h3>
+                <div class="card-body pt-2">
+                  <header class="card-header bg-transparent mb-2 pt-0">
+                    <h3 class="card-title mb-0">Supported Species</h3>
                   </header>
                   <dl class="card-text list-group list-group-flush">
                   {{#each supports}}
                     <div class="list-group-item">
-                      <dt><h4>{{common_name}}</h4></dt>
-                      <dd><a href={{wikilink}}>{{species}}</a></dd>
+                      <article class="card border-0">
+                        <dt><h4>{{common_name}}</h4></dt>
+                        <dd><a href={{wikilink}}>{{species}}</a></dd>
+                        {{#if wikiSummary}}
+                        {{#if wikiSummary.err}}
+                        {{{wikiSummary.err}}}
+                        {{/if}}
+                        <dd class="">
+                          <img class="img-fluid card-img w-75 rounded-0 mb-2" src="{{wikiSummary.originalimage.source}}" {{> wiki_img_details}}>
+                          <blockquote class="card-text" cite="{{wikilink}}">
+                            {{{wikiSummary.extract_html}}}
+                          </blockquote>
+                        </dd>
+                        {{/if}}
+                      </article>
                     </div>
                   {{/each}}
                   </dl>
