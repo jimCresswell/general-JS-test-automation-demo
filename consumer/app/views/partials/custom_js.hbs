@@ -1,6 +1,7 @@
 <script>
   $(function onReady() {
     const ACTIVE = 'active';
+    // Use nav-bar as event delegate.
     $('.navbar').click(function switchActiveNavEl(event) {
       $(this).find(`.${ACTIVE}`).removeClass(ACTIVE);
       $(event.target).addClass(ACTIVE);
