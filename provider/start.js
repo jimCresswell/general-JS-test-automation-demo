@@ -1,12 +1,12 @@
 const app = require('./app/support_species_app');
+const { defaults } = require('../package.json');
 
-const defaultPort = 3001;
-const port = process.env.PROVIDER_PORT || defaultPort;
+const providerPort = process.env.PROVIDER_PORT || defaults.providerPort;
 
 const description = 'Support species app (provider)';
 
-app.listen(port, () => {
+app.listen(providerPort, () => {
   process.stdout.write(
-    `${description} running on http://localhost:${port}\n`
+    `${description} running on http://localhost:${providerPort}\n`
   );
 });
