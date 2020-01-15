@@ -1,0 +1,9 @@
+<script>
+  $(function onReady() {
+    const ACTIVE = 'active';
+    $('.navbar').click(function switchActiveNavEl(event) {
+      $(this).find(`.${ACTIVE}`).removeClass(ACTIVE);
+      $(event.target).addClass(ACTIVE);
+    });
+  })
+</script>
