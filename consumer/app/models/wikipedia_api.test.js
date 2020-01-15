@@ -54,7 +54,7 @@ describe('The Wikipedia model network functions', function () {
         {
           common_name: 'Supported species 2',
           wikilink: 'http://example.com/supported_2',
-        }
+        },
       ],
     }];
 
@@ -64,7 +64,7 @@ describe('The Wikipedia model network functions', function () {
       expect(data).to.eventually.be.an('array'),
       expect(data).to.eventually.have.nested.property('[0].wikiSummary.title', this.testTitle),
       expect(data).to.eventually.have.nested.property('[0].supports[0].wikiSummary.title', this.testTitle),
-            expect(data).to.eventually.have.nested.property('[0].supports[1].wikiSummary.title', this.testTitle),
+      expect(data).to.eventually.have.nested.property('[0].supports[1].wikiSummary.title', this.testTitle),
     ]);
   });
 
