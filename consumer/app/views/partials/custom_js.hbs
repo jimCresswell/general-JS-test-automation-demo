@@ -1,10 +1,28 @@
 <script>
   $(function onReady() {
-    const ACTIVE = 'active';
-    // Use nav-bar as event delegate.
-    $('.navbar').click(function switchActiveNavEl(event) {
+    /**
+     * Navbar custom behaviour.
+     * Highlight current nav link and close menu after click.
+     * Use navbar-nav as event delegate.
+     */
+    $('.navbar-nav').click(function navBarBehaviour(event) {
+
+      /* Highlight nav items when used to navigate. */
+      const ACTIVE = 'active';
       $(this).find(`.${ACTIVE}`).removeClass(ACTIVE);
       $(event.target).addClass(ACTIVE);
+
+      /* Close after click on a nav item. */
+      const SHOW = 'show';
+      const $navbarCollapse = $('.navbar-collapse');
+      if($navbarCollapse.hasClass(SHOW)) {
+        // Collapse the nav list.
+        $navbarCollapse.removeClass(SHOW);
+        // Update the accessibility information.
+        $(this).parents('.navbar').find('.navbar-toggler')
+          .addClass('collapsed')
+          .attr('aria-expanded', 'false');
+      }
     });
   })
 </script>
