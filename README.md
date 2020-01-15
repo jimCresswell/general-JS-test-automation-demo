@@ -54,7 +54,6 @@ Not yet implemented. Will use Cucumber and WebDriver to execute human readable s
     * Publish the pacts. DONE.
     * Run them against the provider. DONE.
     * Publish the verification results. DONE.
-  * Add UI section on which species of pollinator are supported. Two columns, left plant, right pollinator, inset the image with flow around text. Reuse Wikipedia API code.
+  * Add UI section on which species of pollinator are supported. Two columns, left plant, right pollinator, inset the image with flow around text. Reuse Wikipedia API code. DONE.
   * E2E tests for the system as a whole, using Cucumber JS and a WebDriver implementation to execute user-level specifications through user-like actions.
-  * Add some client-side JavaScript and provide in-browser tests (?).
   * Note in README that this is a full functional testing demo for a JS app rather than just a CDCT demo.
