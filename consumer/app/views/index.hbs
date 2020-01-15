@@ -2,16 +2,17 @@
 {{> start_page}}
     <title>Pollinator Supporting Plants</title>
 {{> end_head_start_body}}
-    <article class="container text-center pt-5">
-      <header class="row mb-5">
+    <article class="container text-center pt-5" id="top">
+      <header class="row">
         <h1 class="col display-4">Pollinator Supporting Plants</h1>
       </header>
+      {{> navigation}}
       <main class="row">
         <div class="col">
           <dl>
             {{#each plants}}
-            <dt class="row">
-              <h2 class="col display-5">{{> species_anchor}}{{> species_title_w_link}}</h2>
+            <dt class="row" id="{{common_name}}">
+              <h2 class="col display-5 pt-4 mt-5">{{> species_anchor}}{{> species_title_w_link}}</h2>
             </dt>
             <dd class="row mb-2">
               <div class="col">
@@ -19,7 +20,7 @@
               </div>
             </dd>
             {{#if wikiSummary}}
-            <dd class="card-group mb-5">
+            <dd class="card-group">
               <div class="card">
                 <div class="card-body pt-2">
                   <header class="card-header bg-transparent mb-2 pt-0">
@@ -79,6 +80,9 @@
           </dl>
         </div>
       </main>
+      <footer class="row mt-3 mb-3">
+        <a class="col text-secondary" href="#top">^ to top</a>
+      </footer>
     </article>
 {{! Includes Boostrap-JS, -JQUERY and -Popper}}
 {{> end_page}}

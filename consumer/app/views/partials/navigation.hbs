@@ -1,0 +1,13 @@
+<nav class="navbar nav-fill sticky-top navbar-expand-sm navbar-light bg-light border rounded-bottom p-1">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavMarkup" aria-controls="navbarNavMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavMarkup">
+    <div class="navbar-nav w-100">
+      <a class="nav-item nav-link active" href="#top">Home <span class="sr-only">(current)</span></a>
+      {{#each plants}}
+      <a class="nav-item nav-link" href="#{{common_name}}">{{common_name}}</a>
+      {{/each}}
+    </div>
+  </div>
+</nav>
