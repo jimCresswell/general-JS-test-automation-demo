@@ -20,9 +20,9 @@
                 <p>{{notes}}</p>
               </div>
             </dd>
-            {{#if wikiSummary}}
             <dd class="card-group">
               <div class="card">
+                {{#if wikiSummary}}
                 <div class="card-body pt-2">
                   <header class="card-header bg-transparent mb-2 pt-0">
                     <h3 class="card-title mb-0">{{common_name}} Details</h3>
@@ -38,7 +38,12 @@
                     <p class="mb-0">More on <a href="{{wikilink}}">Wikipedia</a></p>
                   </footer>
                 </div>
-              </div>
+                {{else}}
+                <div class="card-body">
+                  <p class="card-text">Could not get further information from Wikipedia with link <a href={{wikilink}}>{{wikilink}}</a>.</p>
+                </div>
+                {{/if}}
+              </div>{{! End of main summary card for the pollinator.}}
               <div class="card">
                 <div class="card-body pt-2">
                   <header class="card-header bg-transparent mb-2 pt-0">
@@ -66,17 +71,8 @@
                   {{/each}}
                   </dl>
                 </div>
-              </div>
+              </div>{{! End of supported species card for the pollintor.}}
             </dd>
-            {{else}}
-            <div class="row justify-content-center text-secondary mb-5">
-              <article class="col-md-6 card mx-1">
-                <div class="card-body">
-                  <p class="card-text">Could not get further information from Wikipedia with link <a href={{wikilink}}>{{wikilink}}</a>.</p>
-                </div>
-              </article>
-            </div>
-            {{/if}}
             {{/each}}
           </dl>
         </div>
