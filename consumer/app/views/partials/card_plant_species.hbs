@@ -1,0 +1,23 @@
+<div class="card">
+  {{#if wikiSummary}}
+  <div class="card-body pt-2">
+    <header class="card-header bg-transparent mb-2 pt-0">
+      <h3 class="card-title mb-0">{{common_name}} Details</h3>
+    </header>
+    <figure class="figure">
+      <img class="figure-img img-fluid card-img" src="{{wikiSummary.originalimage.source}}" {{> wiki_img_details}}>
+      <figcaption class="figure-caption">{{> wiki_short_desc}}</figcaption>
+    </figure>
+    <blockquote class="card-text text-md-left" cite="{{wikilink}}">
+        {{{wikiSummary.extract_html}}}
+    </blockquote>
+    <footer class="card-footer bg-transparent">
+      <p class="mb-0">More on <a href="{{wikilink}}">Wikipedia</a></p>
+    </footer>
+  </div>
+  {{else}}
+  <div class="card-body">
+    <p class="card-text">Could not get further information from Wikipedia with link <a href={{wikilink}}>{{wikilink}}</a>.</p>
+  </div>
+  {{/if}}
+</div>{{! End of main summary card for the pollinator.}}
