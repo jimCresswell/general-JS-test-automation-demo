@@ -46,9 +46,16 @@ describe('The Wikipedia model network functions', function () {
     const plantData = [{
       name: 'some plant',
       wikilink: 'http://example.com/plant',
-      supports: [{
-        wikilink: 'http://example.com/supported',
-      }],
+      supports: [
+        {
+          common_name: 'Supported species 1',
+          wikilink: 'http://example.com/supported_1',
+        },
+        {
+          common_name: 'Supported species 2',
+          wikilink: 'http://example.com/supported_2',
+        }
+      ],
     }];
 
     const data = wikiApi.attachSummaries(this.axios, plantData);
@@ -57,6 +64,7 @@ describe('The Wikipedia model network functions', function () {
       expect(data).to.eventually.be.an('array'),
       expect(data).to.eventually.have.nested.property('[0].wikiSummary.title', this.testTitle),
       expect(data).to.eventually.have.nested.property('[0].supports[0].wikiSummary.title', this.testTitle),
+            expect(data).to.eventually.have.nested.property('[0].supports[1].wikiSummary.title', this.testTitle),
     ]);
   });
 
