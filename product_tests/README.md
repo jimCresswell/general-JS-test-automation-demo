@@ -14,4 +14,4 @@ Tests at the whole-of-system level cast the widest net for finding issues, and b
 
 These tests are designed to validate the behaviour of the product, not to test the UI elements themselves, that can happen much faster at lower levels of testing with injected application state.
 
-For the sake of brevity these tests have been kept to a minimum of specifications and code, here is [a more extensive demo](https://github.com/jimCresswell/e2e-web-test-framework-demo) of this level of testing.
+For the sake of brevity these tests have been kept to a minimum of specifications and code complexity, here is [a more extensive demo](https://github.com/jimCresswell/e2e-web-test-framework-demo) designed to resemble a production product-level test framework.
