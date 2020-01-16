@@ -12,18 +12,20 @@
         <div class="col">
           <dl>
             {{#each plants}}
-            <dt class="row" id="{{common_name}}">
-              <h2 class="col display-5 pt-4 mt-5">{{> species_anchor}}{{> species_title_w_link}}</h2>
-            </dt>
-            <dd class="row mb-2">
-              <div class="col">
-                <p>{{notes}}</p>
-              </div>
-            </dd>
-            <dd class="card-group">
-              {{> card_plant_species}}
-              {{> card_supported_species}}
-            </dd>
+            <div>
+              <dt class="row" id="{{to_id common_name}}">
+                <h2 class="col display-5 pt-4 mt-5">{{> species_anchor}}{{> species_title_w_link}}</h2>
+              </dt>
+              <dd class="row mb-2">
+                <div class="col">
+                  <p>{{notes}}</p>
+                </div>
+              </dd>
+              <dd class="card-group" data-test="details">
+                {{> card_plant_species}}
+                {{> card_supported_species}}
+              </dd>
+            </div>
             {{/each}}
           </dl>
         </div>

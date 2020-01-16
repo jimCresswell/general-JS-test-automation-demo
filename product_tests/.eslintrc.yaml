@@ -1,0 +1,4 @@
+globals:
+    browser: readonly
+    $: readonly
+    $$: readonly
