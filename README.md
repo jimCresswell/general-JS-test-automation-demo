@@ -65,15 +65,10 @@ These are tests call the app directly (Supertest automatically binds to an ephem
 See [details here]('./product_tests').
 
 ## To Do
-  * Create the most basic implementation of the provider service possible. DONE.
-  * Create the skeleton for the consumer service. DONE.
-    * Server-side data interactions with the provider. DONE.
-    * Server-side rendering of UI. Unit tests. Integration tests as required. DONE.
-  * Create consumer driven contract tests between consumer and provider. DONE.
-    * Consumer tests DONE.
-    * Publish the pacts. DONE.
-    * Run them against the provider. DONE.
-    * Publish the verification results. DONE.
-  * Add UI section on which species of pollinator are supported. Two columns, left plant, right pollinator, inset the image with flow around text. Reuse Wikipedia API code. DONE.
-  * E2E tests for the system as a whole, using Cucumber JS and a WebDriver implementation to execute user-level specifications through user-like actions.
-  * Note in README that this is a full functional testing demo for a JS app rather than just a CDCT demo.
+  * Rewrite READMEs to reflect that this is a demo of how different levels of testing can be used in different ways.
+  * Rename the repo accordingly.
+
+## Future Improvements
+  * Configure a CI platform to hierarchically run the tests, fastest first, and report to Github. See here for [an existing example with CI configuration](https://github.com/jimCresswell/e2e-web-test-framework-demo).
+  * Add various status badges to the main README.
+  * Deploy the services to cloud hosting and put a link in the Github page.

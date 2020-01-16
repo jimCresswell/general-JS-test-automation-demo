@@ -26,6 +26,9 @@ partialFileNames.forEach((fileName) => {
   hbs.registerPartial(partialName, partial);
 });
 
+// Add Handlebars helpers
+hbs.registerHelper('to_id', (stringWithSpaces) => stringWithSpaces.replace(' ', '_'));
+
 /**
  * Get the Express app, allows dependency injection.
  * @param  {Object} axios A network interaction library.
