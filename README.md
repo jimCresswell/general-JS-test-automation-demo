@@ -1,5 +1,5 @@
 # Pact JS Demo
-This is a general functional test automation demo for JavaScript digital services. The project has a provider service, which manages data about pollinator supporting plants (with a focus on the UK/northern Europe), and a consumer service which takes that data, enhances it with more data from Wikipedia, and renders the result in a web GUI. The services communicate over HTTP and serve their results on `localhost`.
+This is a general functional test automation demo for JavaScript digital services. The project has a provider service, which manages data about pollinator supporting plants (with a focus on the UK/northern Europe), and a consumer service which takes that data, enhances it with more data from Wikipedia, and renders the result in a responsive web GUI. The services communicate over HTTP and serve their results on `localhost`.
 
 The automated tests operate a different levels, from unit to individual service e2e test to whole-of-product tests. The project includes a consumer driven contract testing (CDCT) demo using [Pact JS](https://github.com/pact-foundation/pact-js). See [below](#consumer-driven-contract-testing-with-pact-js) for more information.
 
