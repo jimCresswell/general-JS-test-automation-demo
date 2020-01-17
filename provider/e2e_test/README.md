@@ -1,3 +1,3 @@
 # End to End Test for the Support Species API
 
-Run in isolation.
+Uses Mocha, Supertest and Chai to exercise the provider API.
