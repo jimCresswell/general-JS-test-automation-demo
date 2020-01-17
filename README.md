@@ -1,6 +1,9 @@
 # Pact JS Demo
-This is a general functional test automation demo for JavaScript digital services. The project has a provider service, which manages data about pollinator supporting plants (with a focus on the UK/northern Europe), and a consumer service which takes that data, enhances it with more data from Wikipedia, and renders the result in a web GUI. The services communicate over HTTP and the consumer serves the web GUI on `localhost`.
+This is a general functional test automation demo for JavaScript digital services. The project has a provider service, which manages data about pollinator supporting plants (with a focus on the UK/northern Europe), and a consumer service which takes that data, enhances it with more data from Wikipedia, and renders the result in a web GUI. The services communicate over HTTP and serve their results on `localhost`.
 
+The automated tests operate a different levels, from unit to individual service e2e test to whole-of-product tests. The project includes a consumer driven contract testing (CDCT) demo using [Pact JS](https://github.com/pact-foundation/pact-js). See [below](#consumer-driven-contract-testing-with-pact-js) for more information.
+
+---
 Effectively the product takes this
 ```json
 {
@@ -24,13 +27,13 @@ Effectively the product takes this
   ]
 },
 ```
+
 Decorates it with additional information from Wikipedia using the provided URLs, and turns it into this
 
 ![An image of the consumer web GUI showing the Marsh Marigold section](screenshots/marsh_marigold.png "Marsh Marigold section wide-screen layout")
-
-The project includes a consumer driven contract testing (CDCT) demo using [Pact JS](https://github.com/pact-foundation/pact-js). See [below](#consumer-driven-contract-testing-with-pact-js) for more information.
-
 ---
+
+
 ## Project Structure
 ### The Consumer
 The consumer is an Express [server-side web app](consumer). It takes data from the provider app, combines it with additional data from the [Wikipedia REST API](https://en.wikipedia.org/api/rest_v1/#/Page%20content), and renders it using [Handlebars](https://handlebarsjs.com/) templates into a responsive web GUI built with [Bootstrap](https://getbootstrap.com/) and a small amount of custom [jQuery](https://jquery.com/) logic (in line with the Bootstrap logic). HTTP calls within the app use the [Axios](https://github.com/axios/axios) library. The app includes unit and end-to-end tests and consumer driven contract tests built with [Pact](https://github.com/pact-foundation/pact-js), see [below](#testing) for more information.
@@ -49,8 +52,7 @@ Everything is controlled from scripts in the [package.json](package.json). For s
 | ---                      | ---                                                            |
 | `test:unit:consumer`     | unit test the consumer                                         |
 | `test:unit:provider`     | unit test the provider                                         |
-| `test:unit:debug`        | unit test the consumer and provider with Node
-                             [listening for a debugging client](https://nodejs.org/en/docs/guides/debugging-getting-started/)  |
+| `test:unit:debug`        | unit test the consumer and provider with Node [listening for a debugging client](https://nodejs.org/en/docs/guides/debugging-getting-started/)  |
 | `test:e2e:consumer`      | consumer end-to-end tests                                      |
 | `test:e2e:provider`      | provider end-to-end tests                                      |
 | `test:contract:consumer` | run consumer contract tests and create contracts (pact files)  |
