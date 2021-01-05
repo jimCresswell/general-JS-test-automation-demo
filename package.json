@@ -28,7 +28,7 @@
     "providerPort": 3002
   },
   "dependencies": {
-    "axios": "^0.19.1",
+    "axios": "^0.21.1",
     "concurrently": "^5.0.2",
     "express": "^4.17.1",
     "hbs": "^4.0.6",
